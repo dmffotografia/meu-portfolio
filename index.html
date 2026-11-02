@@ -37,7 +37,7 @@
             text-decoration: none;
         }
 
-        /* Navbar Layout (Traditional Table fallback styling for structure) */
+        /* Navbar Layout com Flexbox */
         .navbar {
             position: fixed;
             top: 0;
@@ -47,19 +47,22 @@
             border-bottom: 1px solid var(--border-color);
             z-index: 1000;
             padding: 15px 5%;
+            backdrop-filter: blur(10px);
         }
 
         .nav-container {
-            display: table;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
         .logo {
-            display: table-cell;
             font-size: 18pt;
             font-weight: bold;
             color: var(--text-primary);
-            vertical-align: middle;
         }
 
         .logo span {
@@ -67,14 +70,12 @@
         }
 
         .nav-menu {
-            display: table-cell;
-            text-align: right;
-            vertical-align: middle;
+            display: flex;
+            align-items: center;
+            gap: 25px;
         }
 
         .nav-item {
-            display: inline-block;
-            margin-left: 25px;
             font-size: 11pt;
             font-weight: 500;
             color: var(--text-secondary);
@@ -142,6 +143,10 @@
 
         .cta-container {
             margin-top: 30px;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
         }
 
         .btn {
@@ -152,7 +157,7 @@
             border-radius: 6px;
             cursor: pointer;
             transition: all 0.3s;
-            margin: 10px;
+            text-align: center;
         }
 
         .btn-primary {
@@ -175,52 +180,31 @@
             border-color: var(--text-secondary);
         }
 
-        /* Portfolio Instructions Banner */
-        .instruction-box {
-            background-color: var(--surface-color);
-            border-left: 4px solid var(--accent-blue);
-            padding: 20px;
-            margin-bottom: 40px;
-            border-radius: 0 8px 8px 0;
-        }
-
-        .instruction-box h4 {
-            font-size: 12pt;
-            color: var(--accent-blue);
-            margin-bottom: 8px;
-        }
-
-        .instruction-box p, .instruction-box ul {
-            font-size: 10pt;
-            color: var(--text-secondary);
-        }
-
-        .instruction-box ul {
-            margin-left: 20px;
-            margin-top: 5px;
-        }
-
-        /* Portfolio Grid Layout */
+        /* Portfolio Flexbox Layout */
         .portfolio-table {
-            display: table;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
             width: 100%;
-            border-collapse: separate;
-            border-spacing: 20px;
         }
 
         .portfolio-row {
-            display: table-row;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            width: 100%;
         }
 
         .portfolio-item {
-            display: table-cell;
-            width: 33.33%;
+            flex: 1 1 calc(33.333% - 20px);
+            max-width: calc(33.333% - 13.33px);
             background-color: var(--surface-color);
             border-radius: 8px;
             overflow: hidden;
             border: 1px solid var(--border-color);
-            vertical-align: top;
             transition: transform 0.3s, border-color 0.3s;
+            display: flex;
+            flex-direction: column;
         }
 
         .portfolio-item:hover {
@@ -228,45 +212,11 @@
             border-color: var(--accent-blue);
         }
 
-        .image-placeholder {
-            width: 100%;
-            height: 250px;
-            background-color: var(--surface-accent);
-            display: block;
-            position: relative;
-            text-align: center;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .placeholder-text {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            color: var(--text-secondary);
-            text-align: center;
-            width: 90%;
-        }
-
-        .placeholder-text i {
-            display: block;
-            font-size: 24pt;
-            margin-bottom: 10px;
-            color: var(--accent-blue);
-        }
-
-        .placeholder-text span {
-            display: block;
-            font-size: 9pt;
-            margin-top: 5px;
-            font-family: monospace;
-            background: #12161a;
-            padding: 4px;
-            border-radius: 4px;
-        }
-
         .item-info {
             padding: 20px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
         }
 
         .item-tag {
@@ -278,6 +228,7 @@
             padding: 3px 8px;
             border-radius: 4px;
             margin-bottom: 10px;
+            align-self: flex-start;
         }
 
         .tag-design { background-color: rgba(0, 229, 255, 0.15); color: var(--accent-blue); }
@@ -292,38 +243,27 @@
         .item-desc {
             font-size: 10pt;
             color: var(--text-secondary);
+            flex-grow: 1;
         }
 
         /* About Section Layout */
         .about-table {
-            display: table;
             width: 100%;
         }
 
         .about-row {
-            display: table-row;
+            display: flex;
+            align-items: center;
+            gap: 40px;
         }
 
         .about-image-cell {
-            display: table-cell;
-            width: 35%;
-            vertical-align: middle;
-            padding-right: 5%;
+            flex: 1 1 35%;
+            max-width: 400px;
         }
 
         .about-text-cell {
-            display: table-cell;
-            width: 65%;
-            vertical-align: middle;
-        }
-
-        .about-placeholder {
-            width: 100%;
-            height: 400px;
-            background-color: var(--surface-color);
-            border: 2px dashed var(--border-color);
-            border-radius: 12px;
-            position: relative;
+            flex: 1 1 65%;
         }
 
         .about-p {
@@ -379,10 +319,76 @@
             color: var(--text-secondary);
         }
 
-        footer .slogan {
-            font-style: italic;
-            margin-bottom: 15px;
-            color: var(--text-primary);
+        /* =========================================================
+           RESPONSIVIDADE EXCLUSIVA PARA CELULAR (ATÉ 768px)
+           ========================================================= */
+        @media (max-width: 768px) {
+            section {
+                padding: 70px 5% 50px 5%;
+            }
+
+            /* Navbar Mobile */
+            .nav-container {
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .nav-menu {
+                gap: 15px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .nav-item {
+                font-size: 10pt;
+            }
+
+            /* Hero Section Mobile */
+            #home {
+                padding: 130px 5% 80px 5%;
+            }
+
+            .hero-title {
+                font-size: 24pt;
+            }
+
+            .hero-subtitle {
+                font-size: 11pt;
+            }
+
+            .cta-container {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+                margin: 5px 0;
+            }
+
+            /* Cards do Portfólio em 100% da largura no celular */
+            .portfolio-item {
+                flex: 1 1 100%;
+                max-width: 100%;
+            }
+
+            /* Seção Sobre Mim em Coluna */
+            .about-row {
+                flex-direction: column;
+                gap: 25px;
+            }
+
+            .about-image-cell {
+                flex: 1 1 100%;
+                max-width: 100%;
+            }
+
+            .about-image-cell img {
+                height: 350px !important;
+            }
+
+            .about-text-cell {
+                flex: 1 1 100%;
+            }
         }
     </style>
 </head>
@@ -418,48 +424,48 @@
     <section id="design">
         <h2 class="section-title">Design Gráfico</h2>
         <p class="section-desc">Artes profissionais criadas de forma estratégica para impulsionar marcas e negócios.</p>
-                      <div class="portfolio-table">
+        
+        <div class="portfolio-table">
             <div class="portfolio-row">
-               <!-- item 1: Redes Sociais -->
+                <!-- item 1: Redes Sociais -->
                 <div class="portfolio-item">
                     <img src="imagens/design_social1.jpg" alt="Mockup de Arte para Instagram" style="width: 100%; height: 250px; object-fit: cover; display: block; border-bottom: 1px solid var(--border-color);">
                     
                     <div class="item-info">
                         <span class="item-tag tag-design">Redes Sociais</span>
-                        <h3 class="item-title"></h3>
+                        <h3 class="item-title">Redes Sociais & Campanhas</h3>
                         <p class="item-desc" style="margin-bottom: 20px;">
-                            Demonstração prática de posts estratégicos.
-                            Criação de criativos em alta resolução.
-                            Design focado em converter e gerar engajamento.
+                            Demonstração prática de posts estratégicos. Criação de criativos em alta resolução. Design focado em converter e gerar engajamento.
                         </p>
                         
-                        <!-- BOTÃO INTERATIVO PARA ABRIR EM NOVA ABA -->
-                        <div style="text-align: center;">
+                        <div style="text-align: center; margin-top: auto;">
                             <a href="redes_sociais.html" class="btn btn-primary" style="padding: 8px 16px; font-size: 10pt; margin: 0; width: 100%; display: block; text-align: center;">
-        Galeria Completa
+                                Galeria Completa
                             </a>
                         </div>
                     </div>
                 </div>
-               <!-- item 3: Flyers -->
+
+                <!-- item 2: Flyers -->
                 <div class="portfolio-item">
                     <img src="imagens/flyer1.jpg" alt="Flyer Profissional" style="width: 100%; height: 250px; object-fit: cover; display: block; border-bottom: 1px solid var(--border-color);">
                     
                     <div class="item-info">
                         <span class="item-tag tag-design">Flyers</span>
-                        <h3 class="item-title"></h3>
+                        <h3 class="item-title">Flyers & Panfletos</h3>
                         <p class="item-desc" style="margin-bottom: 20px;">
                             Cartazes, anúncios e panfletos digitais criados de forma estratégica para eventos, lançamentos de produtos e campanhas de alta conversão.
                         </p>
                         
-                        <!-- BOTÃO INTERATIVO PARA ABRIR NA MESMA ABA -->
-                        <div style="text-align: center;">
+                        <div style="text-align: center; margin-top: auto;">
                             <a href="flyers.html" class="btn btn-primary" style="padding: 8px 16px; font-size: 10pt; margin: 0; width: 100%; display: block; text-align: center;">
                                 Galeria Completa
                             </a>
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
     </section>
 
     <!-- FOTOGRAFIA SECTION -->
@@ -474,55 +480,59 @@
                     <img src="imagens/evento_casamento.jpg" alt="Foto de Eventos" style="width: 100%; height: 250px; object-fit: cover; display: block; border-bottom: 1px solid var(--border-color);">
                     
                     <div class="item-info">
-                        <h3 class="item-title"></h3>
+                        <span class="item-tag tag-photo">Eventos</span>
+                        <h3 class="item-title">Eventos & Festas</h3>
                         <p class="item-desc" style="margin-bottom: 20px;">
                             Cobertura fotográfica espontânea e emocionante de casamentos, festas de bodas, aniversários infantis, confraternizações e eventos em igrejas.
                         </p>
                         
-                        <!-- BOTÃO INTERATIVO PARA ABRIR NA MESMA ABA -->
-                        <div style="text-align: center;">
+                        <div style="text-align: center; margin-top: auto;">
                             <a href="eventos.html" class="btn btn-primary" style="padding: 8px 16px; font-size: 10pt; margin: 0; width: 100%; display: block; text-align: center;">
-                               Galeria Completa
+                                Galeria Completa
                             </a>
                         </div>
                     </div>
                 </div>
-               <!-- item 2: Ensaios -->
+
+                <!-- item 2: Ensaios -->
                 <div class="portfolio-item">
                     <img src="imagens/ensaio_fotográfico.jpg" alt="Foto de Ensaio" style="width: 100%; height: 250px; object-fit: cover; display: block; border-bottom: 1px solid var(--border-color);">
                     
                     <div class="item-info">
-                        <h3 class="item-title"></h3>
+                        <span class="item-tag tag-photo">Ensaios</span>
+                        <h3 class="item-title">Ensaios Fotográficos</h3>
                         <p class="item-desc" style="margin-bottom: 20px;">
                             Retratos pessoais, ensaios externos e registros afetivos focados na espontaneidade e na conexão humana.
                         </p>
                         
-                        <!-- BOTÃO INTERATIVO PARA ABRIR NA MESMA ABA -->
-                        <div style="text-align: center;">
+                        <div style="text-align: center; margin-top: auto;">
                             <a href="ensaios.html" class="btn btn-primary" style="padding: 8px 16px; font-size: 10pt; margin: 0; width: 100%; display: block; text-align: center;">
                                 Galeria Completa
                             </a>
                         </div>
                     </div>
                 </div>
-                <!-- item 3: Comercial / Paisagens -->
+
+                <!-- item 3: Comercial / Produtos -->
                 <div class="portfolio-item">
                     <img src="imagens/produto.jpg" alt="Foto de Produto / Paisagem" style="width: 100%; height: 250px; object-fit: cover; display: block; border-bottom: 1px solid var(--border-color);">
                     
                     <div class="item-info">
-                        <h3 class="item-title"></h3>
+                        <span class="item-tag tag-photo">Comercial</span>
+                        <h3 class="item-title">Comercial & Produtos</h3>
                         <p class="item-desc" style="margin-bottom: 20px;">
-                            Fotografia técnica para e-commerce (branding de produtos).
+                            Fotografia técnica para e-commerce (branding de produtos) e registro de ambientes comerciais.
                         </p>
                         
-                        <!-- BOTÃO INTERATIVO PARA ABRIR NA MESMA ABA -->
-                        <div style="text-align: center;">
+                        <div style="text-align: center; margin-top: auto;">
                             <a href="comercial.html" class="btn btn-primary" style="padding: 8px 16px; font-size: 10pt; margin: 0; width: 100%; display: block; text-align: center;">
                                 Galeria Completa
                             </a>
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
     </section>
 
     <!-- SOBRE MIM SECTION -->
@@ -560,18 +570,17 @@
                 Seja para criar a identidade visual da sua marca, bombar suas redes sociais com artes profissionais ou eternizar aquele evento especial em família, eu estou pronto para te ajudar.
             </p>
             <a href="https://wa.me/5511966475415" target="_blank" class="btn btn-whatsapp">
-                 Conversar no WhatsApp
+                Conversar no WhatsApp
             </a>
             <br>
             <a href="https://www.instagram.com/dm.ffotografia/" target="_blank" class="instagram-link">
-                 Siga no Instagram: @dm.ffotografia
+                Siga no Instagram: @dm.ffotografia
             </a>
         </div>
     </section>
 
     <!-- FOOTER -->
     <footer>
-
         <p>&copy; 2026 Davi Melo. Todos os direitos reservados.</p>
     </footer>
 
