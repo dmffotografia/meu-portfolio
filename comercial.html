@@ -144,7 +144,7 @@
             cursor: pointer;
         }
 
-        /* Lightbox Limpo sem botões visíveis de seta */
+        /* Lightbox Base */
         .lightbox-modal {
             display: none;
             position: fixed;
@@ -183,11 +183,20 @@
             color: var(--accent-blue);
         }
 
+        /* Setas Ocultas por Padrão (No PC ficam escondidas) */
+        .lightbox-btn {
+            display: none;
+        }
+
+        /* =========================================================
+           REGRAS EXCLUSIVAS PARA O MOBILE (ATÉ 768px)
+           ========================================================= */
         @media (max-width: 768px) {
             body {
                 padding: 15px 3%;
             }
 
+            /* 1. Blocos dos Menus/Sub-menus em 100% sem espremer */
             .grid-menu, 
             .menu-linha, 
             .quadrado-tema {
@@ -206,6 +215,28 @@
             .quadrado-tema[style*="visibility: hidden"] {
                 display: none !important;
             }
+
+            /* 2. Exibe as setas flutuantes APENAS no Celular */
+            .lightbox-btn {
+                display: flex !important;
+                align-items: center;
+                justify-content: center;
+                position: absolute;
+                top: 50%;
+                transform: translateY(-50%);
+                background: rgba(0, 0, 0, 0.6);
+                color: #ffffff;
+                border: 1px solid var(--accent-blue);
+                font-size: 18px;
+                padding: 8px 12px;
+                cursor: pointer;
+                border-radius: 50%;
+                user-select: none;
+                z-index: 3001;
+            }
+
+            .lightbox-prev { left: 10px; }
+            .lightbox-next { right: 10px; }
         }
     </style>
 </head>
@@ -282,7 +313,7 @@
     </div>
 
     <!-- =========================================================
-         4. GALERIAS DE FOTOS (MURAIS)
+         4. GALERIAS DE FOTOS (MURAIS EM GRADE)
          ========================================================= -->
 
     <!-- GALERIA: PAPELARIA MÃOS CRIATIVAS -->
@@ -416,11 +447,13 @@
     </div>
 
     <!-- =========================================================
-         5. JANELA FLUTUANTE (LIGHTBOX LIMPO)
+         5. JANELA FLUTUANTE (LIGHTBOX NAVEGÁVEL NO MOBILE)
          ========================================================= -->
     <div id="visualizadorLightbox" class="lightbox-modal">
         <span class="lightbox-close" onclick="fecharFotoGrande()">&times;</span>
+        <button class="lightbox-btn lightbox-prev" onclick="mudarFoto(-1); event.stopPropagation();">&#10094;</button>
         <img class="lightbox-content" id="fotoExpandida">
+        <button class="lightbox-btn lightbox-next" onclick="mudarFoto(1); event.stopPropagation();">&#10095;</button>
     </div>
 
     <!-- =========================================================
