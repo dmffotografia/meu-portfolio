@@ -110,7 +110,7 @@
             display: none;
         }
 
-        /* Mural de Fotos (Mantém a Grade Exata) */
+        /* Mural de Fotos */
         .mural-fotos {
             display: table;
             width: 100%;
@@ -144,7 +144,7 @@
             cursor: pointer;
         }
 
-        /* Lightbox Limpo (Sem Botões de Seta na Tela) */
+        /* Lightbox Limpo sem botões visíveis de seta */
         .lightbox-modal {
             display: none;
             position: fixed;
@@ -183,15 +183,11 @@
             color: var(--accent-blue);
         }
 
-        /* =========================================================
-           AJUSTE EXCLUSIVO MOBILE: CARDS SEM ESPREMER
-           ========================================================= */
         @media (max-width: 768px) {
             body {
                 padding: 15px 3%;
             }
 
-            /* Deixa apenas as subpastas/cards em 100% no celular */
             .grid-menu, 
             .menu-linha, 
             .quadrado-tema {
@@ -286,7 +282,7 @@
     </div>
 
     <!-- =========================================================
-         4. GALERIAS DE FOTOS (MURAIS EM GRADE)
+         4. GALERIAS DE FOTOS (MURAIS)
          ========================================================= -->
 
     <!-- GALERIA: PAPELARIA MÃOS CRIATIVAS -->
@@ -534,7 +530,7 @@
             }
         });
 
-        /* Navegação via Teclado (Seta Direita, Seta Esquerda e ESC) */
+        /* Navegação via Teclado */
         document.addEventListener('keydown', function(event) {
             var lightbox = document.getElementById("visualizadorLightbox");
             if (lightbox && lightbox.style.display === "flex") {
@@ -548,7 +544,7 @@
             }
         });
 
-        /* Navegação por Gesto no Celular (Swipe para os Lados) */
+        /* Navegação por Gesto no Celular (Swipe) */
         var lightboxElement = document.getElementById("visualizadorLightbox");
         
         lightboxElement.addEventListener('touchstart', function(e) {
@@ -563,10 +559,10 @@
         function tratarDeslize() {
             var limiteDistancia = 50;
             if (touchEndX < touchStartX - limiteDistancia) {
-                mudarFoto(1);  // Deslizou para a esquerda -> Próxima foto
+                mudarFoto(1);
             }
             if (touchEndX > touchStartX + limiteDistancia) {
-                mudarFoto(-1); // Deslizou para a direita -> Foto anterior
+                mudarFoto(-1);
             }
         }
     </script>
