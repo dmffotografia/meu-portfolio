@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Davi Melo | Galeria Identidade Visual</title>
+    <style>
+        :root {
+            --bg-color: #0d1117;
+            --accent-blue: #00e5ff;
+            --text-secondary: #8b949e;
+            --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            font-family: var(--font-family);
+            padding: 30px 4%;
+        }
+
+        .btn-voltar {
+            display: inline-block;
+            color: var(--text-secondary);
+            font-weight: 600;
+            text-decoration: none;
+            margin-bottom: 25px;
+            transition: color 0.3s;
+            font-size: 11pt;
+            cursor: pointer;
+        }
+
+        .btn-voltar:hover {
+            color: var(--accent-blue);
+        }
+
+        /* Mural de Fotos Diretas */
+        .mural-fotos {
+            display: table;
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 15px;
+        }
+
+        .mural-linha {
+            display: table-row;
+        }
+
+        .mural-coluna {
+            display: table-cell;
+            width: 33.33%;
+            vertical-align: top;
+        }
+
+        .mural-coluna img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 6px;
+            transition: transform 0.3s ease, filter 0.3s ease;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+        }
+
+        .mural-coluna img:hover {
+            transform: scale(1.02);
+            filter: brightness(1.1);
+            cursor: pointer;
+        }
+
+        /* Estilo do Visualizador de Fotos (Lightbox) */
+        .lightbox-modal {
+            display: none;
+            position: fixed;
+            z-index: 3000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.95);
+            text-align: center;
+        }
+
+        .lightbox-content {
+            max-width: 90%;
+            max-height: 80vh;
+            margin: 5vh auto;
+            display: inline-block;
+            vertical-align: middle;
+            border-radius: 4px;
+            box-shadow: 0 0 20px rgba(0, 229, 255, 0.2);
+            animation: zoomIn 0.3s ease;
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 20px;
+            right: 35px;
+            color: #fff;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .lightbox-close:hover {
+            color: var(--accent-blue);
+        }
+
+        .lightbox-helper {
+            display: inline-block;
+            height: 100%;
+            vertical-align: middle;
+        }
+
+        @keyframes zoomIn {
+            from { transform: scale(0.9); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- BOTÃO DE RETORNO -->
+    <a href="index.html" id="btn-voltar-home" class="btn-voltar">← Voltar para o Portfólio Principal</a>
+
+    <!-- MURAL DE FOTOS DIRETAS -->
+    <div class="mural-fotos">
+        
+        <div class="mural-linha">
+            <!-- Projeto 1: Sua principal logo ou guia de marca -->
+            <div class="mural-coluna">
+                <img src="imagens/identidade_visual1.jpg" alt="Logo 1" onclick="abrirFotoGrande(this)">
+            </div>
+            <!-- Projeto 2: Aplicação em papelaria ou cartão de visita -->
+            <div class="mural-coluna">
+                <img src="imagens/identidade_visual2.jpg" alt="Logo 2" onclick="abrirFotoGrande(this)">
+            </div>
+            <!-- Projeto 3: Aplicação digital ou mockup de fachada -->
+            <div class="mural-coluna">
+                <img src="imagens/identidade_visual3.jpg" alt="Logo 3" onclick="abrirFotoGrande(this)">
+            </div>
+        </div>
+
+        <!-- SEGUNDA LINHA DE FOTOS -->
+        <div class="mural-linha">
+            <div class="mural-coluna">
+                <img src="imagens/identidade_visual4.jpg" alt="Logo 4" onclick="abrirFotoGrande(this)">
+            </div>
+            <!-- Colunas de alinhamento vazias mantidas de forma correta para a tabela -->
+            <div class="mural-coluna" style="visibility: hidden; border: none; background: transparent;"></div>
+            <div class="mural-coluna" style="visibility: hidden; border: none; background: transparent;"></div>
+        </div>
+
+    </div>
+
+    <!-- JANELA FLUTUANTE DA FOTO EXPANDIDA (LIGHTBOX) -->
+    <div id="visualizadorLightbox" class="lightbox-modal" onclick="fecharFotoGrande()">
+        <span class="lightbox-close">&times;</span>
+        <span class="lightbox-helper"></span>
+        <img class="lightbox-content" id="fotoExpandida">
+    </div>
+
+    <!-- LÓGICA INTERATIVA COM SUPORTE A TECLADO (JAVASCRIPT) -->
+    <script>
+        var listaFotosAtiva = [];
+        var indexFotoAtual = -1;
+
+        // Mapeia de forma automática todas as fotos reais após o carregamento da página
+        window.onload = function() {
+            var imagensGerais = document.querySelectorAll(".mural-coluna img");
+            imagensGerais.forEach(function(img) {
+                if (img.parentElement.style.visibility !== "hidden") {
+                    listaFotosAtiva.push(img);
+                }
+            });
+        };
+
+        // Abrir a foto em tamanho grande
+        function abrirFotoGrande(elementoImg) {
+            var lightbox = document.getElementById("visualizadorLightbox");
+            var imagemGrande = document.getElementById("fotoExpandida");
+            
+            lightbox.style.display = "block";
+            imagemGrande.src = elementoImg.src;
+
+            // Encontra a posição correta da foto clicada
+            indexFotoAtual = listaFotosAtiva.indexOf(elementoImg);
+        }
+
+        function fecharFotoGrande() {
+            document.getElementById("visualizadorLightbox").style.display = "none";
+        }
+
+        // Navegação (Próxima ou Anterior)
+        function mudarFoto(direcao) {
+            if (listaFotosAtiva.length === 0 || indexFotoAtual === -1) return;
+
+            indexFotoAtual += direcao;
+
+            // Retorna ao início ou final dependendo do limite
+            if (indexFotoAtual >= listaFotosAtiva.length) {
+                indexFotoAtual = 0;
+            } else if (indexFotoAtual < 0) {
+                indexFotoAtual = listaFotosAtiva.length - 1;
+            }
+
+            document.getElementById("fotoExpandida").src = listaFotosAtiva[indexFotoAtual].src;
+        }
+
+        // Monitor de Teclado (Setas Direcionais e ESC)
+        document.addEventListener('keydown', function(event) {
+            var lightbox = document.getElementById("visualizadorLightbox");
+            
+            if (lightbox.style.display === "block") {
+                if (event.key === "ArrowRight") {
+                    mudarFoto(1); // Seta Direita
+                } else if (event.key === "ArrowLeft") {
+                    mudarFoto(-1); // Seta Esquerda
+                } else if (event.key === "Escape") {
+                    fecharFotoGrande(); // Tecla ESC
+                }
+            }
+        });
+    </script>
+
+</body>
+</html>

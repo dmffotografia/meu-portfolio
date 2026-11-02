@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Davi Melo | Design Gráfico & Fotografia</title>
+    <style>
+        /* Base Variables & Reset */
+        :root {
+            --bg-color: #12161a;
+            --surface-color: #1a2126;
+            --surface-accent: #242d34;
+            --text-primary: #ffffff;
+            --text-secondary: #90a4ae;
+            --accent-blue: #00e5ff;
+            --accent-green: #00e676;
+            --border-color: #2d3842;
+            --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            font-family: var(--font-family);
+            line-height: 1.6;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        /* Navbar Layout (Traditional Table fallback styling for structure) */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgba(26, 33, 38, 0.95);
+            border-bottom: 1px solid var(--border-color);
+            z-index: 1000;
+            padding: 15px 5%;
+        }
+
+        .nav-container {
+            display: table;
+            width: 100%;
+        }
+
+        .logo {
+            display: table-cell;
+            font-size: 18pt;
+            font-weight: bold;
+            color: var(--text-primary);
+            vertical-align: middle;
+        }
+
+        .logo span {
+            color: var(--accent-blue);
+        }
+
+        .nav-menu {
+            display: table-cell;
+            text-align: right;
+            vertical-align: middle;
+        }
+
+        .nav-item {
+            display: inline-block;
+            margin-left: 25px;
+            font-size: 11pt;
+            font-weight: 500;
+            color: var(--text-secondary);
+            transition: color 0.3s;
+        }
+
+        .nav-item:hover {
+            color: var(--accent-blue);
+        }
+
+        /* Sections Styling */
+        section {
+            padding: 100px 8% 80px 8%;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .section-title {
+            font-size: 22pt;
+            margin-bottom: 15px;
+            text-align: center;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 50px;
+            height: 3px;
+            background-color: var(--accent-blue);
+            margin: 10px auto 0 auto;
+        }
+
+        .section-desc {
+            text-align: center;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto 40px auto;
+            font-size: 11pt;
+        }
+
+        /* Hero Section */
+        #home {
+            padding: 180px 8% 140px 8%;
+            text-align: center;
+            background: radial-gradient(circle at 50% 30%, #1e293b 0%, var(--bg-color) 70%);
+        }
+
+        .hero-title {
+            font-size: 36pt;
+            font-weight: 800;
+            margin-bottom: 20px;
+            letter-spacing: -1px;
+        }
+
+        .hero-title span {
+            color: var(--accent-blue);
+        }
+
+        .hero-subtitle {
+            font-size: 13pt;
+            color: var(--text-secondary);
+            max-width: 750px;
+            margin: 0 auto 40px auto;
+        }
+
+        .cta-container {
+            margin-top: 30px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 14px 30px;
+            font-size: 11pt;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin: 10px;
+        }
+
+        .btn-primary {
+            background-color: var(--accent-blue);
+            color: #000;
+        }
+
+        .btn-primary:hover {
+            background-color: #00b8d4;
+            box-shadow: 0 0 15px rgba(0, 229, 255, 0.4);
+        }
+
+        .btn-secondary {
+            border: 2px solid var(--border-color);
+            color: var(--text-primary);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--surface-accent);
+            border-color: var(--text-secondary);
+        }
+
+        /* Portfolio Instructions Banner */
+        .instruction-box {
+            background-color: var(--surface-color);
+            border-left: 4px solid var(--accent-blue);
+            padding: 20px;
+            margin-bottom: 40px;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .instruction-box h4 {
+            font-size: 12pt;
+            color: var(--accent-blue);
+            margin-bottom: 8px;
+        }
+
+        .instruction-box p, .instruction-box ul {
+            font-size: 10pt;
+            color: var(--text-secondary);
+        }
+
+        .instruction-box ul {
+            margin-left: 20px;
+            margin-top: 5px;
+        }
+
+        /* Portfolio Grid Layout */
+        .portfolio-table {
+            display: table;
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 20px;
+        }
+
+        .portfolio-row {
+            display: table-row;
+        }
+
+        .portfolio-item {
+            display: table-cell;
+            width: 33.33%;
+            background-color: var(--surface-color);
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            vertical-align: top;
+            transition: transform 0.3s, border-color 0.3s;
+        }
+
+        .portfolio-item:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-blue);
+        }
+
+        .image-placeholder {
+            width: 100%;
+            height: 250px;
+            background-color: var(--surface-accent);
+            display: block;
+            position: relative;
+            text-align: center;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .placeholder-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: var(--text-secondary);
+            text-align: center;
+            width: 90%;
+        }
+
+        .placeholder-text i {
+            display: block;
+            font-size: 24pt;
+            margin-bottom: 10px;
+            color: var(--accent-blue);
+        }
+
+        .placeholder-text span {
+            display: block;
+            font-size: 9pt;
+            margin-top: 5px;
+            font-family: monospace;
+            background: #12161a;
+            padding: 4px;
+            border-radius: 4px;
+        }
+
+        .item-info {
+            padding: 20px;
+        }
+
+        .item-tag {
+            display: inline-block;
+            font-size: 8pt;
+            text-transform: uppercase;
+            font-weight: bold;
+            letter-spacing: 1px;
+            padding: 3px 8px;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+
+        .tag-design { background-color: rgba(0, 229, 255, 0.15); color: var(--accent-blue); }
+        .tag-photo { background-color: rgba(0, 230, 118, 0.15); color: var(--accent-green); }
+
+        .item-title {
+            font-size: 13pt;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+        }
+
+        .item-desc {
+            font-size: 10pt;
+            color: var(--text-secondary);
+        }
+
+        /* About Section Layout */
+        .about-table {
+            display: table;
+            width: 100%;
+        }
+
+        .about-row {
+            display: table-row;
+        }
+
+        .about-image-cell {
+            display: table-cell;
+            width: 35%;
+            vertical-align: middle;
+            padding-right: 5%;
+        }
+
+        .about-text-cell {
+            display: table-cell;
+            width: 65%;
+            vertical-align: middle;
+        }
+
+        .about-placeholder {
+            width: 100%;
+            height: 400px;
+            background-color: var(--surface-color);
+            border: 2px dashed var(--border-color);
+            border-radius: 12px;
+            position: relative;
+        }
+
+        .about-p {
+            font-size: 11pt;
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+            text-align: justify;
+        }
+
+        /* Contact Section */
+        #contato {
+            text-align: center;
+            background-color: var(--surface-color);
+        }
+
+        .contact-box {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .btn-whatsapp {
+            background-color: var(--accent-green);
+            color: #000;
+            font-weight: bold;
+            font-size: 12pt;
+        }
+
+        .btn-whatsapp:hover {
+            background-color: #00c853;
+            box-shadow: 0 0 15px rgba(0, 230, 118, 0.4);
+        }
+
+        .instagram-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: var(--text-secondary);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .instagram-link:hover {
+            color: #ff4081;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--bg-color);
+            padding: 40px 5%;
+            text-align: center;
+            border-top: 1px solid var(--border-color);
+            font-size: 10pt;
+            color: var(--text-secondary);
+        }
+
+        footer .slogan {
+            font-style: italic;
+            margin-bottom: 15px;
+            color: var(--text-primary);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">DAVI <span> MELO</span></div>
+            <div class="nav-menu">
+                <a href="#home" class="nav-item">Início</a>
+                <a href="#design" class="nav-item">Design Gráfico</a>
+                <a href="#fotografia" class="nav-item">Fotografia</a>
+                <a href="#sobre" class="nav-item">Sobre Mim</a>
+                <a href="#contato" class="nav-item">Contato</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HOME / HERO SECTION -->
+    <section id="home">
+        <h1 class="hero-title">Davi Melo | <span>Design & Fotografia</span></h1>
+        <p class="hero-subtitle">
+            Transformando ideias em experiências visuais de alto impacto. Soluções criativas em identidade visual, flyers e design estratégico para destacar suas redes sociais, unidas à sensibilidade de registrar histórias e momentos reais.
+        </p>
+        <div class="cta-container">
+            <a href="#design" class="btn btn-primary">Ver Portfólio</a>
+            <a href="#contato" class="btn btn-secondary">Solicitar Orçamento</a>
+        </div>
+    </section>
+
+    <!-- DESIGN GRÁFICO SECTION -->
+    <section id="design">
+        <h2 class="section-title">Design Gráfico</h2>
+        <p class="section-desc">Artes profissionais criadas de forma estratégica para impulsionar marcas e negócios.</p>
+                      <div class="portfolio-table">
+            <div class="portfolio-row">
+               <!-- item 1: Redes Sociais -->
+                <div class="portfolio-item">
+                    <img src="imagens/design_social1.jpg" alt="Mockup de Arte para Instagram" style="width: 100%; height: 250px; object-fit: cover; display: block; border-bottom: 1px solid var(--border-color);">
+                    
+                    <div class="item-info">
+                        <span class="item-tag tag-design">Redes Sociais</span>
+                        <h3 class="item-title"></h3>
+                        <p class="item-desc" style="margin-bottom: 20px;">
+                            Demonstração prática de posts estratégicos.
+                            Criação de criativos em alta resolução.
+                            Design focado em converter e gerar engajamento.
+                        </p>
+                        
+                        <!-- BOTÃO INTERATIVO PARA ABRIR EM NOVA ABA -->
+                        <div style="text-align: center;">
+                            <a href="redes_sociais.html" class="btn btn-primary" style="padding: 8px 16px; font-size: 10pt; margin: 0; width: 100%; display: block; text-align: center;">
+        Galeria Completa
+                            </a>
+                        </div>
+                    </div>
+                </div>
+               <!-- item 3: Flyers -->
+                <div class="portfolio-item">
+                    <img src="imagens/flyer1.jpg" alt="Flyer Profissional" style="width: 100%; height: 250px; object-fit: cover; display: block; border-bottom: 1px solid var(--border-color);">
+                    
+                    <div class="item-info">
+                        <span class="item-tag tag-design">Flyers</span>
+                        <h3 class="item-title"></h3>
+                        <p class="item-desc" style="margin-bottom: 20px;">
+                            Cartazes, anúncios e panfletos digitais criados de forma estratégica para eventos, lançamentos de produtos e campanhas de alta conversão.
+                        </p>
+                        
+                        <!-- BOTÃO INTERATIVO PARA ABRIR NA MESMA ABA -->
+                        <div style="text-align: center;">
+                            <a href="flyers.html" class="btn btn-primary" style="padding: 8px 16px; font-size: 10pt; margin: 0; width: 100%; display: block; text-align: center;">
+                                Galeria Completa
+                            </a>
+                        </div>
+                    </div>
+                </div>
+    </section>
+
+    <!-- FOTOGRAFIA SECTION -->
+    <section id="fotografia">
+        <h2 class="section-title">Fotografia</h2>
+        <p class="section-desc">Eternizando momentos, emoções e a essência de marcas e ambientes.</p>
+
+        <div class="portfolio-table">
+            <div class="portfolio-row">
+                <!-- item 1: Eventos -->
+                <div class="portfolio-item">
+                    <img src="imagens/evento_casamento.jpg" alt="Foto de Eventos" style="width: 100%; height: 250px; object-fit: cover; display: block; border-bottom: 1px solid var(--border-color);">
+                    
+                    <div class="item-info">
+                        <h3 class="item-title"></h3>
+                        <p class="item-desc" style="margin-bottom: 20px;">
+                            Cobertura fotográfica espontânea e emocionante de casamentos, festas de bodas, aniversários infantis, confraternizações e eventos em igrejas.
+                        </p>
+                        
+                        <!-- BOTÃO INTERATIVO PARA ABRIR NA MESMA ABA -->
+                        <div style="text-align: center;">
+                            <a href="eventos.html" class="btn btn-primary" style="padding: 8px 16px; font-size: 10pt; margin: 0; width: 100%; display: block; text-align: center;">
+                               Galeria Completa
+                            </a>
+                        </div>
+                    </div>
+                </div>
+               <!-- item 2: Ensaios -->
+                <div class="portfolio-item">
+                    <img src="imagens/ensaio_fotográfico.jpg" alt="Foto de Ensaio" style="width: 100%; height: 250px; object-fit: cover; display: block; border-bottom: 1px solid var(--border-color);">
+                    
+                    <div class="item-info">
+                        <h3 class="item-title"></h3>
+                        <p class="item-desc" style="margin-bottom: 20px;">
+                            Retratos pessoais, ensaios externos e registros afetivos focados na espontaneidade e na conexão humana.
+                        </p>
+                        
+                        <!-- BOTÃO INTERATIVO PARA ABRIR NA MESMA ABA -->
+                        <div style="text-align: center;">
+                            <a href="ensaios.html" class="btn btn-primary" style="padding: 8px 16px; font-size: 10pt; margin: 0; width: 100%; display: block; text-align: center;">
+                                Galeria Completa
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <!-- item 3: Comercial / Paisagens -->
+                <div class="portfolio-item">
+                    <img src="imagens/produto.jpg" alt="Foto de Produto / Paisagem" style="width: 100%; height: 250px; object-fit: cover; display: block; border-bottom: 1px solid var(--border-color);">
+                    
+                    <div class="item-info">
+                        <h3 class="item-title"></h3>
+                        <p class="item-desc" style="margin-bottom: 20px;">
+                            Fotografia técnica para e-commerce (branding de produtos).
+                        </p>
+                        
+                        <!-- BOTÃO INTERATIVO PARA ABRIR NA MESMA ABA -->
+                        <div style="text-align: center;">
+                            <a href="comercial.html" class="btn btn-primary" style="padding: 8px 16px; font-size: 10pt; margin: 0; width: 100%; display: block; text-align: center;">
+                                Galeria Completa
+                            </a>
+                        </div>
+                    </div>
+                </div>
+    </section>
+
+    <!-- SOBRE MIM SECTION -->
+    <section id="sobre">
+        <h2 class="section-title">Sobre Mim</h2>
+        <p class="section-desc">Conheça a história por trás das lentes e das criações digitais.</p>
+
+        <div class="about-table">
+            <div class="about-row">
+                <!-- Coluna da Foto -->
+                <div class="about-image-cell">
+                    <img src="imagens/davi_melo.png.png" alt="Davi Melo" style="width: 100%; height: 500px; object-fit: cover; border-radius: 12px; border: 1px solid var(--border-color); display: block;">
+                </div>
+                <!-- Coluna do Texto -->
+                <div class="about-text-cell">
+                    <p class="about-p">
+                        Minha jornada com o universo visual começou cedo, aos 13 anos. O que começou como curiosidade em um curso de informática e nos primeiros comandos no Photoshop logo virou paixão e propósito. Minha primeira grande missão foi modernizar a identidade visual da empresa de marmitex dos meus pais — ali eu entendi o poder que o design tem de transformar negócios.
+                    </p>
+                    <p class="about-p">
+                        Depois de criar soluções visuais e layouts estratégicos para escolas e marcas, senti que precisava ir além das telas. Há 4 anos, dei vida a uma nova paixão: a fotografia. Comecei registrando a emoção e a fé em eventos na igreja e, naturalmente, essa arte expandiu para casamentos, aniversários, ensaios de famílias e fotografia comercial.
+                    </p>
+                    <p class="about-p" style="font-weight: bold; color: var(--accent-blue);">
+                        Hoje, como designer gráfico e fotógrafo, meu objetivo é um só: unir técnica, sensibilidade e alta resolução para eternizar os momentos mais importantes da sua vida e criar a identidade que vai destacar a sua marca no mercado.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTATO SECTION -->
+    <section id="contato">
+        <div class="contact-box">
+            <h2 class="section-title">Vamos criar algo incrível juntos?</h2>
+            <p class="section-desc" style="margin-bottom: 30px;">
+                Seja para criar a identidade visual da sua marca, bombar suas redes sociais com artes profissionais ou eternizar aquele evento especial em família, eu estou pronto para te ajudar.
+            </p>
+            <a href="https://wa.me/5511966475415" target="_blank" class="btn btn-whatsapp">
+                 Conversar no WhatsApp
+            </a>
+            <br>
+            <a href="https://www.instagram.com/dm.ffotografia/" target="_blank" class="instagram-link">
+                 Siga no Instagram: @dm.ffotografia
+            </a>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+
+        <p>&copy; 2026 Davi Melo. Todos os direitos reservados.</p>
+    </footer>
+
+</body>
+</html>

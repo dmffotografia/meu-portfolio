@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Davi Melo | Temas de Ensaios</title>
+    <style>
+        :root {
+            --bg-color: #0d1117;
+            --surface-color: #1a2126;
+            --accent-blue: #00e5ff;
+            --text-primary: #ffffff;
+            --text-secondary: #8b949e;
+            --border-color: #2d3842;
+            --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            font-family: var(--font-family);
+            color: var(--text-primary);
+            padding: 30px 4%;
+        }
+
+        .btn-voltar {
+            display: inline-block;
+            color: var(--text-secondary);
+            font-weight: 600;
+            text-decoration: none;
+            margin-bottom: 25px;
+            transition: color 0.3s;
+            font-size: 11pt;
+            cursor: pointer;
+        }
+
+        .btn-voltar:hover {
+            color: var(--accent-blue);
+        }
+
+        /* Estrutura de Tabela para os Quadrados de Temas */
+        .grid-menu {
+            display: table;
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 20px;
+        }
+
+        .menu-linha {
+            display: table-row;
+        }
+
+        .quadrado-tema {
+            display: table-cell;
+            width: 33.33%;
+            background-color: var(--surface-color);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            overflow: hidden;
+            vertical-align: top;
+            text-align: center;
+            padding-bottom: 25px;
+            transition: transform 0.3s, border-color 0.3s;
+        }
+
+        .quadrado-tema:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-blue);
+        }
+
+        .quadrado-tema img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            display: block;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 15px;
+        }
+
+        .quadrado-tema h3 {
+            font-size: 14pt;
+            margin-bottom: 15px;
+            padding: 0 10px;
+        }
+
+        .btn-abrir {
+            display: inline-block;
+            background-color: var(--accent-blue);
+            color: #000;
+            padding: 9px 22px;
+            font-size: 10pt;
+            font-weight: bold;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .btn-abrir:hover {
+            background-color: #00b8d4;
+        }
+
+        /* Estrutura Oculta Inicial para Galerias e Sub-menus */
+        .galeria-fotos, .sub-menu {
+            display: none;
+        }
+
+        .mural-fotos {
+            display: table;
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 15px;
+            margin-top: 20px;
+        }
+
+        .mural-linha {
+            display: table-row;
+        }
+
+        .mural-coluna {
+            display: table-cell;
+            width: 33.33%;
+            vertical-align: top;
+        }
+
+        .mural-coluna img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 6px;
+            transition: transform 0.3s ease, filter 0.3s ease;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+        }
+
+        .mural-coluna img:hover {
+            transform: scale(1.02);
+            filter: brightness(1.1);
+            cursor: pointer;
+        }
+
+        /* Estilo do Lightbox */
+        .lightbox-modal {
+            display: none;
+            position: fixed;
+            z-index: 3000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.95);
+            text-align: center;
+        }
+
+        .lightbox-content {
+            max-width: 90%;
+            max-height: 80vh;
+            margin: 5vh auto;
+            display: inline-block;
+            vertical-align: middle;
+            border-radius: 4px;
+            box-shadow: 0 0 20px rgba(0, 229, 255, 0.2);
+            animation: zoomIn 0.3s ease;
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 20px;
+            right: 35px;
+            color: #fff;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .lightbox-close:hover {
+            color: var(--accent-blue);
+        }
+
+        .lightbox-helper {
+            display: inline-block;
+            height: 100%;
+            vertical-align: middle;
+        }
+
+        @keyframes zoomIn {
+            from { transform: scale(0.9); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- MENUS DE VOLTAR DINÂMICOS -->
+    <a href="index.html" id="btn-voltar-home" class="btn-voltar">← Voltar para o Portfólio Principal</a>
+    <a onclick="voltarParaMenuPrincipal()" id="btn-voltar-temas" class="btn-voltar" style="display: none;">← Voltar para os Temas de Ensaios</a>
+    <a onclick="abrirMenuRetratosPessoais()" id="btn-voltar-pessoais" class="btn-voltar" style="display: none;">← Voltar para Álbuns de Retratos Pessoais</a>
+    <a onclick="abrirMenuEnsaiosExternos()" id="btn-voltar-externos" class="btn-voltar" style="display: none;">← Voltar para Álbuns de Ensaios Externos</a>
+    <a onclick="abrirMenuModaComercial()" id="btn-voltar-moda" class="btn-voltar" style="display: none;">← Voltar para Clientes de Moda & Comercial</a>
+    <a onclick="abrirSubMenuRubraFashion()" id="btn-voltar-rubra" class="btn-voltar" style="display: none;">← Voltar para Álbuns Rubra Fashion</a>
+
+    <!-- =========================================================
+         1. MENU PRINCIPAL DE TEMAS DE ENSAIOS
+         ========================================================= -->
+    <div class="grid-menu" id="menu-temas">
+        <div class="menu-linha">
+            
+            <!-- Tema 1: Retratos Pessoais -->
+            <div class="quadrado-tema">
+                <img src="imagens/ensaios/retratos_pessoais/ensaio_pessoa.jpg" alt="Capa Retratos Pessoais">
+                <h3>RETRATOS PESSOAIS</h3>
+                <button class="btn-abrir" onclick="abrirMenuRetratosPessoais()">Ver Álbuns</button>
+            </div>
+
+            <!-- Tema 2: Ensaios Externos -->
+            <div class="quadrado-tema">
+                <img src="imagens/ensaios/ensaios_externos/familia_silva/ensaio_externo10.jpg" alt="Capa Ensaios Externos">
+                <h3>ENSAIOS EXTERNOS</h3>
+                <button class="btn-abrir" onclick="abrirMenuEnsaiosExternos()">Ver Álbuns</button>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- =========================================================
+         2. SUB-MENUS DE NAVEGAÇÃO
+         ========================================================= -->
+
+    <!-- SUB-MENU: RETRATOS PESSOAIS -->
+    <div class="grid-menu sub-menu" id="menu-retratos-pessoais">
+        <h2 style="color: var(--accent-blue); text-align: center; margin-bottom: 25px; width: 100%;"></h2>
+        <div class="menu-linha">
+            <div class="quadrado-tema">
+                <img src="imagens/ensaios/retratos_pessoais/marcio/marcio1.jpg" alt="Retrato Marcio">
+                <h3>MARCIO</h3>
+                <button class="btn-abrir" onclick="abrirGaleria('galeria-marcio', 'pessoais')">Ver Fotos</button>
+            </div>
+            <div class="quadrado-tema">
+                <img src="imagens/ensaios/retratos_pessoais/demetrius/demetrius1.jpg" alt="Retrato Demetrius">
+                <h3>DEMETRIUS</h3>
+                <button class="btn-abrir" onclick="abrirGaleria('galeria-demetrius', 'pessoais')">Ver Fotos</button>
+            </div>
+            <div class="quadrado-tema">
+                <img src="imagens/ensaios/retratos_pessoais/keyla/keyla1.jpg" alt="Retrato Keyla">
+                <h3>KEYLA</h3>
+                <button class="btn-abrir" onclick="abrirGaleria('galeria-keyla', 'pessoais')">Ver Fotos</button>
+            </div>
+        </div>
+        <div class="menu-linha">
+            <div class="quadrado-tema">
+                <img src="imagens/ensaios/retratos_pessoais/vitoria/vitoria1.jpg" alt="Retrato Vitória">
+                <h3>VITÓRIA</h3>
+                <button class="btn-abrir" onclick="abrirGaleria('galeria-vitoria', 'pessoais')">Ver Fotos</button>
+            </div>
+            <div class="quadrado-tema" style="visibility: hidden; border: none; background: transparent;"></div>
+            <div class="quadrado-tema" style="visibility: hidden; border: none; background: transparent;"></div>
+        </div>
+    </div>
+
+    <!-- SUB-MENU: ENSAIOS EXTERNOS -->
+    <div class="grid-menu sub-menu" id="menu-ensaios-externos">
+        <h2 style="color: var(--accent-blue); text-align: center; margin-bottom: 25px; width: 100%;"></h2>
+        <div class="menu-linha">
+            <div class="quadrado-tema">
+                <img src="imagens/ensaios/ensaios_externos/familia_silva/ensaio_externo10.jpg" alt="Família Silva">
+                <h3>FAMÍLIA SILVA</h3>
+                <button class="btn-abrir" onclick="abrirGaleria('galeria-familia-silva', 'externos')">Ver Fotos</button>
+            </div>
+            <div class="quadrado-tema" style="visibility: hidden; border: none; background: transparent;"></div>
+            <div class="quadrado-tema" style="visibility: hidden; border: none; background: transparent;"></div>
+        </div>
+    </div>
+
+    <!-- SUB-MENU: MODA & COMERCIAL (LISTA DE CLIENTES) -->
+    <div class="grid-menu sub-menu" id="menu-moda-comercial">
+        <h2 style="color: var(--accent-blue); text-align: center; margin-bottom: 25px; width: 100%;"></h2>
+        <div class="menu-linha">
+            <div class="quadrado-tema">
+                <img src="imagens/ensaios/moda_comercial/rubra_fashion/ensaio_outubro/moda1 (1).jpg" alt="Rubra Fashion">
+                <h3>RUBRA FASHION</h3>
+                <button class="btn-abrir" onclick="abrirSubMenuRubraFashion()">Ver Álbuns</button>
+            </div>
+            <div class="quadrado-tema" style="visibility: hidden; border: none; background: transparent;"></div>
+            <div class="quadrado-tema" style="visibility: hidden; border: none; background: transparent;"></div>
+        </div>
+    </div>
+
+    <!-- SUB-MENU: ÁLBUNS RUBRA FASHION -->
+    <div class="grid-menu sub-menu" id="menu-rubra-fashion">
+        <h2 style="color: var(--accent-blue); text-align: center; margin-bottom: 25px; width: 100%;"></h2>
+        <div class="menu-linha">
+            <div class="quadrado-tema">
+                <img src="imagens/ensaios/moda_comercial/rubra_fashion/ensaio_outubro/moda1 (2).jpg" alt="Ensaio Outubro">
+                <h3>ENSAIO OUTUBRO</h3>
+                <button class="btn-abrir" onclick="abrirGaleria('galeria-rubra-outubro', 'rubra')">Ver Fotos</button>
+            </div>
+            <div class="quadrado-tema" style="visibility: hidden; border: none; background: transparent;"></div>
+            <div class="quadrado-tema" style="visibility: hidden; border: none; background: transparent;"></div>
+        </div>
+    </div>
+    <!-- =========================================================
+         3. GALERIAS DE FOTOS (MURAIS)
+         ========================================================= -->
+
+    <!-- ÁLBUM: MARCIO (5 FOTOS) -->
+    <div class="galeria-fotos" id="galeria-marcio">
+        <h2 style="color: var(--accent-blue); text-align: center; margin-bottom: 20px;"></h2>
+        <div class="mural-fotos">
+            <div class="mural-linha">
+                <div class="mural-coluna"><img src="imagens/ensaios/retratos_pessoais/marcio/marcio2.jpg" alt="Marcio 2" onclick="abrirFotoGrande(this)"></div>
+                <div class="mural-coluna"><img src="imagens/ensaios/retratos_pessoais/marcio/marcio3.jpg" alt="Marcio 3" onclick="abrirFotoGrande(this)"></div>
+                <div class="mural-coluna"><img src="imagens/ensaios/retratos_pessoais/marcio/marcio4.jpg" alt="Marcio 4" onclick="abrirFotoGrande(this)"></div>
+            </div>
+            <div class="mural-linha">
+                <div class="mural-coluna"><img src="imagens/ensaios/retratos_pessoais/marcio/marcio5.jpg" alt="Marcio 5" onclick="abrirFotoGrande(this)"></div>
+                <div class="mural-coluna" style="visibility: hidden; border: none; background: transparent;"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ÁLBUM: DEMETRIUS (CAPA: demetrius1.jpg | MURAL: demetrius2 até 6) -->
+    <div class="galeria-fotos" id="galeria-demetrius">
+        <h2 style="color: var(--accent-blue); text-align: center; margin-bottom: 20px;"></h2>
+        <div class="mural-fotos">
+            <div class="mural-linha">
+                <div class="mural-coluna"><img src="imagens/ensaios/retratos_pessoais/demetrius/demetrius2.jpg" alt="Demetrius 2" onclick="abrirFotoGrande(this)"></div>
+                <div class="mural-coluna"><img src="imagens/ensaios/retratos_pessoais/demetrius/demetrius3.jpg" alt="Demetrius 3" onclick="abrirFotoGrande(this)"></div>
+                <div class="mural-coluna"><img src="imagens/ensaios/retratos_pessoais/demetrius/demetrius4.jpg" alt="Demetrius 4" onclick="abrirFotoGrande(this)"></div>
+            </div>
+            <div class="mural-linha">
+                <div class="mural-coluna"><img src="imagens/ensaios/retratos_pessoais/demetrius/demetrius5.jpg" alt="Demetrius 5" onclick="abrirFotoGrande(this)"></div>
+                <div class="mural-coluna"><img src="imagens/ensaios/retratos_pessoais/demetrius/demetrius6.jpg" alt="Demetrius 6" onclick="abrirFotoGrande(this)"></div>
+                <div class="mural-coluna" style="visibility: hidden; border: none; background: transparent;"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ÁLBUM: KEYLA (CAPA: keyla1.jpg | MURAL: keyla2 até 16) -->
+    <div class="galeria-fotos" id="galeria-keyla">
+        <h2 style="color: var(--accent-blue); text-align: center; margin-bottom: 20px;"></h2>
+        <div class="mural-fotos">
+            <div class="mural-linha">
+                <div class="mural-coluna"><img src="imagens/ensaios/retratos_pessoais/keyla/keyla2.jpg" alt="Keyla 2" onclick="abrirFotoGrande(this)"></div>
+                <div class="mural-coluna"><img src="imagens/ensaios/retratos_pessoais/keyla/keyla3.jpg" alt="Keyla 3" onclick="abrirFotoGrande(this)"></div>
+                <div class="mural-coluna"><img src="imagens/ensaios/retratos_pessoais/keyla/keyla4.jpg" alt="Keyla 4" onclick="abrirFotoGrande(this)"></div>
+            </div>
+            <div class="mural-linha">
+                <div class="mural-coluna"><img src="imagens/ensaios/retratos_pessoais/keyla/keyla5.jpg" alt="Keyla 5" onclick="abrirFotoGrande(this)"></div>
+                <div class="mural-coluna"><img src="imagens/ensaios/retratos_pessoais/keyla/keyla6.jpg" alt="Keyla 6" onclick="abrirFotoGrande(this)"></div>
+                <div class="mural-coluna"><img src="imagens/ensaios/retratos_pessoais/keyla/keyla7.jpg" alt="Keyla 7" onclick="abrirFotoGrande(this)"></div>
+            </div>
+            <div class="mural-linha">
+                <div class="mural-coluna"><img src="imagens/ensaios/retratos_pessoais/keyla/keyla8.jpg" alt="Keyla 8" onclick="abrirFotoGrande(this)"></div>
+                <div class="mural-coluna"><img src="imagens/ensaios/retratos_pessoais/keyla/keyla9.jpg" alt="Keyla 9" onclick="abrirFotoGrande(this)"></div>
+                <div class="mural-coluna"><img src="imagens/ensaios/retratos_pessoais/keyla/keyla10.jpg" alt="Keyla 10" onclick="abrirFotoGrande(this)"></div>
+            </div>
+            <div class="mural-linha">
+                <div class="mural-coluna"><img src="imagens/ensaios/retratos_pessoais/keyla/keyla11.jpg" alt="Keyla 11" onclick="abrirFotoGrande(this)"></div>
+                <div class="mural-coluna"><img src="imagens/ensaios/retratos_pessoais/keyla/keyla12.jpg" alt="Keyla 12" onclick="abrirFotoGrande(this)"></div>
+                <div class="mural-coluna"><img src="imagens/ensaios/retratos_pessoais/keyla/keyla13.jpg" alt="Keyla 13" onclick="abrirFotoGrande(this)"></div>
+            </div>
+            <div class="mural-linha">
+                <div class="mural-coluna"><img src="imagens/ensaios/retratos_pessoais/keyla/keyla14.jpg" alt="Keyla 14" onclick="abrirFotoGrande(this)"></div>
+                <div class="mural-coluna"><img src="imagens/ensaios/retratos_pessoais/keyla/keyla15.jpg" alt="Keyla 15" onclick="abrirFotoGrande(this)"></div>
+                <div class="mural-coluna"><img src="imagens/ensaios/retratos_pessoais/keyla/keyla16.jpg" alt="Keyla 16" onclick="abrirFotoGrande(this)"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ÁLBUM: VITÓRIA (CAPA: vitoria1.jpg | MURAL: vitoria2.jpg) -->
+    <div class="galeria-fotos" id="galeria-vitoria">
+        <h2 style="color: var(--accent-blue); text-align: center; margin-bottom: 20px;"></h2>
+        <div class="mural-fotos">
+            <div class="mural-linha">
+                <div class="mural-coluna"><img src="imagens/ensaios/retratos_pessoais/vitoria/vitoria2.jpg" alt="Vitória 2" onclick="abrirFotoGrande(this)"></div>
+                <div class="mural-coluna" style="visibility: hidden; border: none; background: transparent;"></div>
+                <div class="mural-coluna" style="visibility: hidden; border: none; background: transparent;"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ÁLBUM: FAMÍLIA SILVA (CAPA: ensaio_externo10.jpg | MURAL: 1 ATÉ 21, EXCETO A 10) -->
+    <div class="galeria-fotos" id="galeria-familia-silva">
+        <h2 style="color: var(--accent-blue); text-align: center; margin-bottom: 20px;"></h2>
+        <div class="mural-fotos">
+            <div class="mural-linha">
+                <div class="mural-coluna"><img src="imagens/ensaios/ensaios_externos/familia_silva/ensaio_externo1.jpg" alt="Foto 1" onclick="abrirFotoGrande(this)"></div>
+                <div class="mural-coluna"><img src="imagens/ensaios/ensaios_externos/familia_silva/ensaio_externo2.jpg" alt="Foto 2" onclick="abrirFotoGrande(this)"></div>
+                <div class="mural-coluna"><img src="imagens/ensaios/ensaios_externos/familia_silva/ensaio_externo3.jpg" alt="Foto 3" onclick="abrirFotoGrande(this)"></div>
+            </div>
+            <div class="mural-linha">
+                <div class="mural-coluna"><img src="imagens/ensaios/ensaios_externos/familia_silva/ensaio_externo4.jpg" alt="Foto 4" onclick="abrirFotoGrande(this)"></div>
+                <div class="mural-coluna"><img src="imagens/ensaios/ensaios_externos/familia_silva/ensaio_externo5.jpg" alt="Foto 5" onclick="abrirFotoGrande(this)"></div>
+                <div class="mural-coluna"><img src="imagens/ensaios/ensaios_externos/familia_silva/ensaio_externo6.jpg" alt="Foto 6" onclick="abrirFotoGrande(this)"></div>
+            </div>
+            <div class="mural-linha">
+                <div class="mural-coluna"><img src="imagens/ensaios/ensaios_externos/familia_silva/ensaio_externo7.jpg" alt="Foto 7" onclick="abrirFotoGrande(this)"></div>
+                <div class="mural-coluna"><img src="imagens/ensaios/ensaios_externos/familia_silva/ensaio_externo8.jpg" alt="Foto 8" onclick="abrirFotoGrande(this)"></div>
+                <div class="mural-coluna"><img src="imagens/ensaios/ensaios_externos/familia_silva/ensaio_externo9.jpg" alt="Foto 9" onclick="abrirFotoGrande(this)"></div>
+            </div>
+            <div class="mural-linha">
+                <div class="mural-coluna"><img src="imagens/ensaios/ensaios_externos/familia_silva/ensaio_externo11.jpg" alt="Foto 11" onclick="abrirFotoGrande(this)"></div>
+                <div class="mural-coluna"><img src="imagens/ensaios/ensaios_externos/familia_silva/ensaio_externo12.jpg" alt="Foto 12" onclick="abrirFotoGrande(this)"></div>
+                <div class="mural-coluna"><img src="imagens/ensaios/ensaios_externos/familia_silva/ensaio_externo13.jpg" alt="Foto 13" onclick="abrirFotoGrande(this)"></div>
+            </div>
+            <div class="mural-linha">
+                <div class="mural-coluna"><img src="imagens/ensaios/ensaios_externos/familia_silva/ensaio_externo14.jpg" alt="Foto 14" onclick="abrirFotoGrande(this)"></div>
+                <div class="mural-coluna"><img src="imagens/ensaios/ensaios_externos/familia_silva/ensaio_externo15.jpg" alt="Foto 15" onclick="abrirFotoGrande(this)"></div>
+                <div class="mural-coluna"><img src="imagens/ensaios/ensaios_externos/familia_silva/ensaio_externo16.jpg" alt="Foto 16" onclick="abrirFotoGrande(this)"></div>
+            </div>
+            <div class="mural-linha">
+                <div class="mural-coluna"><img src="imagens/ensaios/ensaios_externos/familia_silva/ensaio_externo17.jpg" alt="Foto 17" onclick="abrirFotoGrande(this)"></div>
+                <div class="mural-coluna"><img src="imagens/ensaios/ensaios_externos/familia_silva/ensaio_externo18.jpg" alt="Foto 18" onclick="abrirFotoGrande(this)"></div>
+                <div class="mural-coluna"><img src="imagens/ensaios/ensaios_externos/familia_silva/ensaio_externo19.jpg" alt="Foto 19" onclick="abrirFotoGrande(this)"></div>
+            </div>
+            <div class="mural-linha">
+                <div class="mural-coluna"><img src="imagens/ensaios/ensaios_externos/familia_silva/ensaio_externo20.jpg" alt="Foto 20" onclick="abrirFotoGrande(this)"></div>
+                <div class="mural-coluna"><img src="imagens/ensaios/ensaios_externos/familia_silva/ensaio_externo21.jpg" alt="Foto 21" onclick="abrirFotoGrande(this)"></div>
+                <div class="mural-coluna" style="visibility: hidden; border: none; background: transparent;"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ÁLBUM: RUBRA FASHION - ENSAIO OUTUBRO (FOTOS: moda1 (3) ATÉ moda1 (48)) -->
+    <div class="galeria-fotos" id="galeria-rubra-outubro">
+        <h2 style="color: var(--accent-blue); text-align: center; margin-bottom: 20px;"></h2>
+        <div class="mural-fotos">
+            <div class="mural-linha">
+                <div class="mural-coluna"><img src="imagens/ensaios/moda_comercial/rubra_fashion/ensaio_outubro/moda1 (3).jpg" alt="Moda 3" onclick="abrirFotoGrande(this)"></div>
+                <div class="mural-coluna"><img src="imagens/ensaios/moda_comercial/rubra_fashion/ensaio_outubro/moda1 (4).jpg" alt="Moda 4" onclick="abrirFotoGrande(this)"></div>
+                <div class="mural-coluna"><img src="imagens/ensaios/moda_comercial/rubra_fashion/ensaio_outubro/moda1 (5).jpg" alt="Moda 5" onclick="abrirFotoGrande(this)"></div>
+            </div>
+            <div class="mural-linha">
+                <div class="mural-coluna"><img src="imagens/ensaios/moda_comercial/rubra_fashion/ensaio_outubro/moda1 (6).jpg" alt="Moda 6" onclick="abrirFotoGrande(this)"></div>
+                <div class="mural-coluna"><img src="imagens/ensaios/moda_comercial/rubra_fashion/ensaio_outubro/moda1 (7).jpg" alt="Moda 7" onclick="abrirFotoGrande(this)"></div>
+                <div class="mural-coluna"><img src="imagens/ensaios/moda_comercial/rubra_fashion/ensaio_outubro/moda1 (8).jpg" alt="Moda 8" onclick="abrirFotoGrande(this)"></div>
+            </div>
+            <div class="mural-linha">
+                <div class="mural-coluna"><img src="imagens/ensaios/moda_comercial/rubra_fashion/ensaio_outubro/moda1 (9).jpg" alt="Moda 9" onclick="abrirFotoGrande(this)"></div>
+                <div class="mural-coluna"><img src="imagens/ensaios/moda_comercial/rubra_fashion/ensaio_outubro/moda1 (10).jpg" alt="Moda 10" onclick="abrirFotoGrande(this)"></div>
+                <div class="mural-coluna"><img src="imagens/ensaios/moda_comercial/rubra_fashion/ensaio_outubro/moda1 (11).jpg" alt="Moda 11" onclick="abrirFotoGrande(this)"></div>
+            </div>
+            <div class="mural-linha">
+                <div class="mural-coluna"><img src="imagens/ensaios/moda_comercial/rubra_fashion/ensaio_outubro/moda1 (12).jpg" alt="Moda 12" onclick="abrirFotoGrande(this)"></div>
+                <div class="mural-coluna"><img src="imagens/ensaios/moda_comercial/rubra_fashion/ensaio_outubro/moda1 (13).jpg" alt="Moda 13" onclick="abrirFotoGrande(this)"></div>
+                <div class="mural-coluna"><img src="imagens/ensaios/moda_comercial/rubra_fashion/ensaio_outubro/moda1 (14).jpg" alt="Moda 14" onclick="abrirFotoGrande(this)"></div>
+            </div>
+            <div class="mural-linha">
+                <div class="mural-coluna"><img src="imagens/ensaios/moda_comercial/rubra_fashion/ensaio_outubro/moda1 (15).jpg" alt="Moda 15" onclick="abrirFotoGrande(this)"></div>
+                <div class="mural-coluna"><img src="imagens/ensaios/moda_comercial/rubra_fashion/ensaio_outubro/moda1 (16).jpg" alt="Moda 16" onclick="abrirFotoGrande(this)"></div>
+                <div class="mural-coluna"><img src="imagens/ensaios/moda_comercial/rubra_fashion/ensaio_outubro/moda1 (17).jpg" alt="Moda 17" onclick="abrirFotoGrande(this)"></div>
+            </div>
+            <div class="mural-linha">
+                <div class="mural-coluna"><img src="imagens/ensaios/moda_comercial/rubra_fashion/ensaio_outubro/moda1 (18).jpg" alt="Moda 18" onclick="abrirFotoGrande(this)"></div>
+                <div class="mural-coluna"><img src="imagens/ensaios/moda_comercial/rubra_fashion/ensaio_outubro/moda1 (19).jpg" alt="Moda 19" onclick="abrirFotoGrande(this)"></div>
+                <div class="mural-coluna"><img src="imagens/ensaios/moda_comercial/rubra_fashion/ensaio_outubro/moda1 (20).jpg" alt="Moda 20" onclick="abrirFotoGrande(this)"></div>
+            </div>
+            <div class="mural-linha">
+                <div class="mural-coluna"><img src="imagens/ensaios/moda_comercial/rubra_fashion/ensaio_outubro/moda1 (21).jpg" alt="Moda 21" onclick="abrirFotoGrande(this)"></div>
+                <div class="mural-coluna"><img src="imagens/ensaios/moda_comercial/rubra_fashion/ensaio_outubro/moda1 (22).jpg" alt="Moda 22" onclick="abrirFotoGrande(this)"></div>
+                <div class="mural-coluna"><img src="imagens/ensaios/moda_comercial/rubra_fashion/ensaio_outubro/moda1 (23).jpg" alt="Moda 23" onclick="abrirFotoGrande(this)"></div>
+            </div>
+            <div class="mural-linha">
+                <div class="mural-coluna"><img src="imagens/ensaios/moda_comercial/rubra_fashion/ensaio_outubro/moda1 (24).jpg" alt="Moda 24" onclick="abrirFotoGrande(this)"></div>
+                <div class="mural-coluna"><img src="imagens/ensaios/moda_comercial/rubra_fashion/ensaio_outubro/moda1 (25).jpg" alt="Moda 25" onclick="abrirFotoGrande(this)"></div>
+                <div class="mural-coluna"><img src="imagens/ensaios/moda_comercial/rubra_fashion/ensaio_outubro/moda1 (26).jpg" alt="Moda 26" onclick="abrirFotoGrande(this)"></div>
+            </div>
+            <div class="mural-linha">
+                <div class="mural-coluna"><img src="imagens/ensaios/moda_comercial/rubra_fashion/ensaio_outubro/moda1 (27).jpg" alt="Moda 27" onclick="abrirFotoGrande(this)"></div>
+                <div class="mural-coluna"><img src="imagens/ensaios/moda_comercial/rubra_fashion/ensaio_outubro/moda1 (28).jpg" alt="Moda 28" onclick="abrirFotoGrande(this)"></div>
+                <div class="mural-coluna"><img src="imagens/ensaios/moda_comercial/rubra_fashion/ensaio_outubro/moda1 (29).jpg" alt="Moda 29" onclick="abrirFotoGrande(this)"></div>
+            </div>
+            <div class="mural-linha">
+                <div class="mural-coluna"><img src="imagens/ensaios/moda_comercial/rubra_fashion/ensaio_outubro/moda1 (30).jpg" alt="Moda 30" onclick="abrirFotoGrande(this)"></div>
+                <div class="mural-coluna"><img src="imagens/ensaios/moda_comercial/rubra_fashion/ensaio_outubro/moda1 (31).jpg" alt="Moda 31" onclick="abrirFotoGrande(this)"></div>
+                <div class="mural-coluna"><img src="imagens/ensaios/moda_comercial/rubra_fashion/ensaio_outubro/moda1 (32).jpg" alt="Moda 32" onclick="abrirFotoGrande(this)"></div>
+            </div>
+            <div class="mural-linha">
+                <div class="mural-coluna"><img src="imagens/ensaios/moda_comercial/rubra_fashion/ensaio_outubro/moda1 (33).jpg" alt="Moda 33" onclick="abrirFotoGrande(this)"></div>
+                <div class="mural-coluna"><img src="imagens/ensaios/moda_comercial/rubra_fashion/ensaio_outubro/moda1 (34).jpg" alt="Moda 34" onclick="abrirFotoGrande(this)"></div>
+                <div class="mural-coluna"><img src="imagens/ensaios/moda_comercial/rubra_fashion/ensaio_outubro/moda1 (35).jpg" alt="Moda 35" onclick="abrirFotoGrande(this)"></div>
+            </div>
+            <div class="mural-linha">
+                <div class="mural-coluna"><img src="imagens/ensaios/moda_comercial/rubra_fashion/ensaio_outubro/moda1 (36).jpg" alt="Moda 36" onclick="abrirFotoGrande(this)"></div>
+                <div class="mural-coluna"><img src="imagens/ensaios/moda_comercial/rubra_fashion/ensaio_outubro/moda1 (37).jpg" alt="Moda 37" onclick="abrirFotoGrande(this)"></div>
+                <div class="mural-coluna"><img src="imagens/ensaios/moda_comercial/rubra_fashion/ensaio_outubro/moda1 (38).jpg" alt="Moda 38" onclick="abrirFotoGrande(this)"></div>
+            </div>
+            <div class="mural-linha">
+                <div class="mural-coluna"><img src="imagens/ensaios/moda_comercial/rubra_fashion/ensaio_outubro/moda1 (39).jpg" alt="Moda 39" onclick="abrirFotoGrande(this)"></div>
+                <div class="mural-coluna"><img src="imagens/ensaios/moda_comercial/rubra_fashion/ensaio_outubro/moda1 (40).jpg" alt="Moda 40" onclick="abrirFotoGrande(this)"></div>
+                <div class="mural-coluna"><img src="imagens/ensaios/moda_comercial/rubra_fashion/ensaio_outubro/moda1 (41).jpg" alt="Moda 41" onclick="abrirFotoGrande(this)"></div>
+            </div>
+            <div class="mural-linha">
+                <div class="mural-coluna"><img src="imagens/ensaios/moda_comercial/rubra_fashion/ensaio_outubro/moda1 (42).jpg" alt="Moda 42" onclick="abrirFotoGrande(this)"></div>
+                <div class="mural-coluna"><img src="imagens/ensaios/moda_comercial/rubra_fashion/ensaio_outubro/moda1 (43).jpg" alt="Moda 43" onclick="abrirFotoGrande(this)"></div>
+                <div class="mural-coluna"><img src="imagens/ensaios/moda_comercial/rubra_fashion/ensaio_outubro/moda1 (44).jpg" alt="Moda 44" onclick="abrirFotoGrande(this)"></div>
+            </div>
+            <div class="mural-linha">
+                <div class="mural-coluna"><img src="imagens/ensaios/moda_comercial/rubra_fashion/ensaio_outubro/moda1 (45).jpg" alt="Moda 45" onclick="abrirFotoGrande(this)"></div>
+                <div class="mural-coluna"><img src="imagens/ensaios/moda_comercial/rubra_fashion/ensaio_outubro/moda1 (46).jpg" alt="Moda 46" onclick="abrirFotoGrande(this)"></div>
+                <div class="mural-coluna"><img src="imagens/ensaios/moda_comercial/rubra_fashion/ensaio_outubro/moda1 (47).jpg" alt="Moda 47" onclick="abrirFotoGrande(this)"></div>
+            </div>
+            <div class="mural-linha">
+                <div class="mural-coluna"><img src="imagens/ensaios/moda_comercial/rubra_fashion/ensaio_outubro/moda1 (48).jpg" alt="Moda 48" onclick="abrirFotoGrande(this)"></div>
+                <div class="mural-coluna" style="visibility: hidden; border: none; background: transparent;"></div>
+                <div class="mural-coluna" style="visibility: hidden; border: none; background: transparent;"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SUB-MENU: ÁLBUNS RUBRA FASHION -->
+    <div class="grid-menu sub-menu" id="menu-rubra-fashion">
+        <h2 style="color: var(--accent-blue); text-align: center; margin-bottom: 25px; width: 100%;">Rubra Fashion - Álbuns</h2>
+        <div class="menu-linha">
+            <div class="quadrado-tema">
+                <img src="imagens/ensaios/moda_comercial/rubra_fashion/ensaio_outubro/moda1.jpg" alt="Ensaio Outubro">
+                <h3>ENSAIO OUTUBRO</h3>
+                <button class="btn-abrir" onclick="abrirGaleria('galeria-rubra-outubro', 'rubra')">Ver Fotos</button>
+            </div>
+            <div class="quadrado-tema" style="visibility: hidden; border: none; background: transparent;"></div>
+            <div class="quadrado-tema" style="visibility: hidden; border: none; background: transparent;"></div>
+        </div>
+    </div>
+
+    <!-- =========================================================
+         4. JANELA FLUTUANTE (LIGHTBOX)
+         ========================================================= -->
+    <div id="visualizadorLightbox" class="lightbox-modal" onclick="fecharFotoGrande()">
+        <span class="lightbox-close">&times;</span>
+        <img class="lightbox-content" id="fotoExpandida">
+    </div>
+    </div>
+
+    <!-- =========================================================
+         5. LÓGICA INTERATIVA (JAVASCRIPT)
+         ========================================================= -->
+    <script>
+        var listaFotosAtiva = [];
+        var indexFotoAtual = -1;
+
+        function esconderTudo() {
+            document.getElementById("menu-temas").style.display = "none";
+            document.getElementById("menu-retratos-pessoais").style.display = "none";
+            document.getElementById("menu-ensaios-externos").style.display = "none";
+            document.getElementById("menu-moda-comercial").style.display = "none";
+            document.getElementById("menu-rubra-fashion").style.display = "none";
+            
+            var galerias = document.getElementsByClassName("galeria-fotos");
+            for (var i = 0; i < galerias.length; i++) {
+                galerias[i].style.display = "none";
+            }
+
+            document.getElementById("btn-voltar-home").style.display = "none";
+            document.getElementById("btn-voltar-temas").style.display = "none";
+            document.getElementById("btn-voltar-pessoais").style.display = "none";
+            document.getElementById("btn-voltar-externos").style.display = "none";
+            document.getElementById("btn-voltar-moda").style.display = "none";
+            document.getElementById("btn-voltar-rubra").style.display = "none";
+        }
+
+        function voltarParaMenuPrincipal() {
+            esconderTudo();
+            document.getElementById("menu-temas").style.display = "table";
+            document.getElementById("btn-voltar-home").style.display = "inline-block";
+        }
+
+        function abrirMenuRetratosPessoais() {
+            esconderTudo();
+            document.getElementById("menu-retratos-pessoais").style.display = "table";
+            document.getElementById("btn-voltar-temas").style.display = "inline-block";
+        }
+
+        function abrirMenuEnsaiosExternos() {
+            esconderTudo();
+            document.getElementById("menu-ensaios-externos").style.display = "table";
+            document.getElementById("btn-voltar-temas").style.display = "inline-block";
+        }
+
+        function abrirMenuModaComercial() {
+            esconderTudo();
+            document.getElementById("menu-moda-comercial").style.display = "table";
+            document.getElementById("btn-voltar-temas").style.display = "inline-block";
+        }
+
+        function abrirSubMenuRubraFashion() {
+            esconderTudo();
+            document.getElementById("menu-rubra-fashion").style.display = "table";
+            document.getElementById("btn-voltar-moda").style.display = "inline-block";
+        }
+
+        function abrirGaleria(idGaleria, origem) {
+            esconderTudo();
+            
+            var galeriaAlvo = document.getElementById(idGaleria);
+            if (!galeriaAlvo) return;
+            
+            galeriaAlvo.style.display = "block";
+
+            if (origem === 'pessoais') {
+                document.getElementById("btn-voltar-pessoais").style.display = "inline-block";
+            } else if (origem === 'externos') {
+                document.getElementById("btn-voltar-externos").style.display = "inline-block";
+            } else if (origem === 'rubra') {
+                document.getElementById("btn-voltar-rubra").style.display = "inline-block";
+            } else {
+                document.getElementById("btn-voltar-temas").style.display = "inline-block";
+            }
+
+            var imagensGerais = galeriaAlvo.querySelectorAll(".mural-coluna img");
+            listaFotosAtiva = [];
+            
+            imagensGerais.forEach(function(img) {
+                if (img.parentElement.style.visibility !== "hidden") {
+                    listaFotosAtiva.push(img);
+                }
+            });
+        }
+
+        function abrirFotoGrande(elementoImg) {
+            var lightbox = document.getElementById("visualizadorLightbox");
+            var imagemGrande = document.getElementById("fotoExpandida");
+            lightbox.style.display = "block";
+            imagemGrande.src = elementoImg.src;
+            indexFotoAtual = listaFotosAtiva.indexOf(elementoImg);
+        }
+
+        function fecharFotoGrande() {
+            document.getElementById("visualizadorLightbox").style.display = "none";
+        }
+
+        function mudarFoto(direcao) {
+            if (listaFotosAtiva.length === 0 || indexFotoAtual === -1) return;
+            indexFotoAtual += direcao;
+            if (indexFotoAtual >= listaFotosAtiva.length) {
+                indexFotoAtual = 0;
+            } else if (indexFotoAtual < 0) {
+                indexFotoAtual = listaFotosAtiva.length - 1;
+            }
+            document.getElementById("fotoExpandida").src = listaFotosAtiva[indexFotoAtual].src;
+        }
+
+        document.addEventListener('keydown', function(event) {
+            var lightbox = document.getElementById("visualizadorLightbox");
+            if (lightbox && lightbox.style.display === "block") {
+                if (event.key === "ArrowRight") {
+                    mudarFoto(1);
+                } else if (event.key === "ArrowLeft") {
+                    mudarFoto(-1);
+                } else if (event.key === "Escape") {
+                    fecharFotoGrande();
+                }
+            }
+        });
+    </script>
+</body>
+</html>
