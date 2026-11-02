@@ -208,11 +208,32 @@
         .lightbox-next { right: 15px; }
 
         /* =========================================================
-           AJUSTES APENAS PARA BOTÕES DO LIGHTBOX NO MOBILE
+           AJUSTE APENAS PARA OS CARDS DE GRUPOS/CATEGORIAS NO MOBILE
            ========================================================= */
         @media (max-width: 768px) {
             body {
                 padding: 15px 3%;
+            }
+
+            /* Transforma apenas a grelha dos menus em blocos de largura cheia */
+            .grid-menu, 
+            .menu-linha, 
+            .quadrado-tema {
+                display: block !important;
+                width: 100% !important;
+            }
+
+            .quadrado-tema {
+                margin-bottom: 20px;
+            }
+
+            .quadrado-tema img {
+                height: 200px;
+            }
+
+            /* Esconde os quadrados invisíveis de reserva no mobile */
+            .quadrado-tema[style*="visibility: hidden"] {
+                display: none !important;
             }
 
             .lightbox-btn {
@@ -473,19 +494,19 @@
 
         function voltarParaMenuPrincipal() {
             esconderTudo();
-            document.getElementById("menu-temas").style.display = "table";
+            document.getElementById("menu-temas").style.display = window.innerWidth <= 768 ? "block" : "table";
             document.getElementById("btn-voltar-home").style.display = "inline-block";
         }
 
         function abrirSubMenuModa() {
             esconderTudo();
-            document.getElementById("menu-moda").style.display = "table";
+            document.getElementById("menu-moda").style.display = window.innerWidth <= 768 ? "block" : "table";
             document.getElementById("btn-voltar-temas").style.display = "inline-block";
         }
 
         function abrirSubMenuRubra() {
             esconderTudo();
-            document.getElementById("menu-rubra").style.display = "table";
+            document.getElementById("menu-rubra").style.display = window.innerWidth <= 768 ? "block" : "table";
             document.getElementById("btn-voltar-moda").style.display = "inline-block";
         }
 
