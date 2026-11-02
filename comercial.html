@@ -43,26 +43,21 @@
             color: var(--accent-blue);
         }
 
-        /* Estrutura de Tabela para os Quadrados de Temas / Clientes */
+        /* Estrutura Moderna Flexbox para os Menus e Sub-menus */
         .grid-menu {
-            display: table;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
             width: 100%;
-            border-collapse: separate;
-            border-spacing: 20px;
-        }
-
-        .menu-linha {
-            display: table-row;
         }
 
         .quadrado-tema {
-            display: table-cell;
-            width: 33.33%;
+            flex: 1 1 calc(33.333% - 20px);
+            max-width: calc(33.333% - 13.33px);
             background-color: var(--surface-color);
             border: 1px solid var(--border-color);
             border-radius: 12px;
             overflow: hidden;
-            vertical-align: top;
             text-align: center;
             padding-bottom: 25px;
             transition: transform 0.3s, border-color 0.3s;
@@ -105,28 +100,23 @@
             background-color: #00b8d4;
         }
 
-        /* Estrutura Oculta Inicial para Galerias e Sub-menus */
+        /* Ocultar abas inativas */
         .galeria-fotos, .sub-menu {
             display: none;
         }
 
-        /* Mural de Fotos */
+        /* Mural de Fotos em Flexbox (3 colunas no PC) */
         .mural-fotos {
-            display: table;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
             width: 100%;
-            border-collapse: separate;
-            border-spacing: 15px;
             margin-top: 20px;
         }
 
-        .mural-linha {
-            display: table-row;
-        }
-
         .mural-coluna {
-            display: table-cell;
-            width: 33.33%;
-            vertical-align: top;
+            flex: 1 1 calc(33.333% - 15px);
+            max-width: calc(33.333% - 10px);
         }
 
         .mural-coluna img {
@@ -144,7 +134,7 @@
             cursor: pointer;
         }
 
-        /* Lightbox Base */
+        /* Lightbox Modal */
         .lightbox-modal {
             display: none;
             position: fixed;
@@ -189,37 +179,30 @@
         }
 
         /* =========================================================
-           REGRAS EXCLUSIVAS PARA O MOBILE (ATÉ 768px)
+           RESPONSIVIDADE EXCLUSIVA PARA TELEMÓVEIS (ATÉ 768px)
            ========================================================= */
         @media (max-width: 768px) {
             body {
                 padding: 15px 3%;
             }
 
-            /* Adapta o layout das tabelas nos menus para não ficarem espremidos */
-            .grid-menu {
-                display: block;
-            }
-
-            .menu-linha {
-                display: block;
-            }
-
+            /* No telemóvel, os cards ocupam a largura total (100%) sem espremer */
             .quadrado-tema {
-                display: block !important;
-                width: 100% !important;
-                margin-bottom: 20px;
+                flex: 1 1 100%;
+                max-width: 100%;
             }
 
             .quadrado-tema img {
                 height: 200px;
             }
 
-            .quadrado-tema[style*="visibility: hidden"] {
-                display: none !important;
+            /* As fotos mantêm a grade (2 colunas no telemóvel para um visual impecável) */
+            .mural-coluna {
+                flex: 1 1 calc(50% - 15px);
+                max-width: calc(50% - 7.5px);
             }
 
-            /* Setas de navegação visíveis apenas no Celular */
+            /* Ativa as setas flutuantes APENAS no telemóvel */
             .lightbox-btn {
                 display: flex !important;
                 align-items: center;
@@ -255,25 +238,18 @@
          1. MENU PRINCIPAL DE CATEGORIAS COMERCIAIS
          ========================================================= -->
     <div class="grid-menu" id="menu-temas">
-        <div class="menu-linha">
-            
-            <!-- Categoria 1: Papelaria Mãos Criativas -->
-            <div class="quadrado-tema">
-                <img src="imagens/comercial/papelaria_maos_criativas/produto1.jpg" alt="Papelaria Mãos Criativas">
-                <h3>PAPELARIA MÃOS CRIATIVAS</h3>
-                <button class="btn-abrir" onclick="abrirGaleria('galeria-maos-criativas', 'temas')">Ver Fotos</button>
-            </div>
+        <!-- Categoria 1: Papelaria Mãos Criativas -->
+        <div class="quadrado-tema">
+            <img src="imagens/comercial/papelaria_maos_criativas/produto1.jpg" alt="Papelaria Mãos Criativas">
+            <h3>PAPELARIA MÃOS CRIATIVAS</h3>
+            <button class="btn-abrir" onclick="abrirGaleria('galeria-maos-criativas', 'temas')">Ver Fotos</button>
+        </div>
 
-            <!-- Categoria 2: Moda & Comercial -->
-            <div class="quadrado-tema">
-                <img src="imagens/comercial/moda_e_comercial/rubra_fashion/ensaio_outubro/moda1 (1).jpg" alt="Moda & Comercial">
-                <h3>MODA & COMERCIAL</h3>
-                <button class="btn-abrir" onclick="abrirSubMenuModa()">Ver Projetos</button>
-            </div>
-
-            <!-- Espaço reservado para futuro cliente -->
-            <div class="quadrado-tema" style="visibility: hidden; border: none; background: transparent;"></div>
-
+        <!-- Categoria 2: Moda & Comercial -->
+        <div class="quadrado-tema">
+            <img src="imagens/comercial/moda_e_comercial/rubra_fashion/ensaio_outubro/moda1 (1).jpg" alt="Moda & Comercial">
+            <h3>MODA & COMERCIAL</h3>
+            <button class="btn-abrir" onclick="abrirSubMenuModa()">Ver Projetos</button>
         </div>
     </div>
 
@@ -281,16 +257,11 @@
          2. SUB-MENU: MODA & COMERCIAL (PROJETOS)
          ========================================================= -->
     <div class="grid-menu sub-menu" id="menu-moda">
-        <div class="menu-linha">
-            <!-- Projeto: Rubra Fashion -->
-            <div class="quadrado-tema">
-                <img src="imagens/comercial/moda_e_comercial/rubra_fashion/ensaio_outubro/moda1 (1).jpg" alt="Rubra Fashion">
-                <h3>RUBRA FASHION</h3>
-                <button class="btn-abrir" onclick="abrirSubMenuRubra()">Ver Ensaios</button>
-            </div>
-
-            <div class="quadrado-tema" style="visibility: hidden; border: none; background: transparent;"></div>
-            <div class="quadrado-tema" style="visibility: hidden; border: none; background: transparent;"></div>
+        <!-- Projeto: Rubra Fashion -->
+        <div class="quadrado-tema">
+            <img src="imagens/comercial/moda_e_comercial/rubra_fashion/ensaio_outubro/moda1 (1).jpg" alt="Rubra Fashion">
+            <h3>RUBRA FASHION</h3>
+            <button class="btn-abrir" onclick="abrirSubMenuRubra()">Ver Ensaios</button>
         </div>
     </div>
 
@@ -298,152 +269,99 @@
          3. SUB-MENU: RUBRA FASHION (ENSAIOS)
          ========================================================= -->
     <div class="grid-menu sub-menu" id="menu-rubra">
-        <div class="menu-linha">
-            <!-- Ensaio: Outubro -->
-            <div class="quadrado-tema">
-                <img src="imagens/comercial/moda_e_comercial/rubra_fashion/ensaio_outubro/moda1 (2).jpg" alt="Ensaio Outubro">
-                <h3>ENSAIO OUTUBRO</h3>
-                <button class="btn-abrir" onclick="abrirGaleria('galeria-rubra-outubro', 'rubra')">Ver Fotos</button>
-            </div>
-
-            <div class="quadrado-tema" style="visibility: hidden; border: none; background: transparent;"></div>
-            <div class="quadrado-tema" style="visibility: hidden; border: none; background: transparent;"></div>
+        <!-- Ensaio: Outubro -->
+        <div class="quadrado-tema">
+            <img src="imagens/comercial/moda_e_comercial/rubra_fashion/ensaio_outubro/moda1 (2).jpg" alt="Ensaio Outubro">
+            <h3>ENSAIO OUTUBRO</h3>
+            <button class="btn-abrir" onclick="abrirGaleria('galeria-rubra-outubro', 'rubra')">Ver Fotos</button>
         </div>
     </div>
 
     <!-- =========================================================
-         4. GALERIAS DE FOTOS (MURAIS EM GRADE)
+         4. GALERIAS DE FOTOS (MURAIS)
          ========================================================= -->
 
     <!-- GALERIA: PAPELARIA MÃOS CRIATIVAS -->
     <div class="galeria-fotos" id="galeria-maos-criativas">
         <div class="mural-fotos">
-            <div class="mural-linha">
-                <div class="mural-coluna"><img src="imagens/comercial/papelaria_maos_criativas/produto1.jpg" alt="Produto 1" onclick="abrirFotoGrande(this)"></div>
-                <div class="mural-coluna"><img src="imagens/comercial/papelaria_maos_criativas/produto2.jpg" alt="Produto 2" onclick="abrirFotoGrande(this)"></div>
-                <div class="mural-coluna"><img src="imagens/comercial/papelaria_maos_criativas/produto3.jpg" alt="Produto 3" onclick="abrirFotoGrande(this)"></div>
-            </div>
-            <div class="mural-linha">
-                <div class="mural-coluna"><img src="imagens/comercial/papelaria_maos_criativas/produto4.jpg" alt="Produto 4" onclick="abrirFotoGrande(this)"></div>
-                <div class="mural-coluna"><img src="imagens/comercial/papelaria_maos_criativas/produto5.jpg" alt="Produto 5" onclick="abrirFotoGrande(this)"></div>
-                <div class="mural-coluna"><img src="imagens/comercial/papelaria_maos_criativas/produto6.jpg" alt="Produto 6" onclick="abrirFotoGrande(this)"></div>
-            </div>
-            <div class="mural-linha">
-                <div class="mural-coluna"><img src="imagens/comercial/papelaria_maos_criativas/produto7.jpg" alt="Produto 7" onclick="abrirFotoGrande(this)"></div>
-                <div class="mural-coluna"><img src="imagens/comercial/papelaria_maos_criativas/produto8.jpg" alt="Produto 8" onclick="abrirFotoGrande(this)"></div>
-                <div class="mural-coluna"><img src="imagens/comercial/papelaria_maos_criativas/produto9.jpg" alt="Produto 9" onclick="abrirFotoGrande(this)"></div>
-            </div>        
-            <div class="mural-linha">
-                <div class="mural-coluna"><img src="imagens/comercial/papelaria_maos_criativas/produto10.jpg" alt="Produto 10" onclick="abrirFotoGrande(this)"></div>
-                <div class="mural-coluna"><img src="imagens/comercial/papelaria_maos_criativas/produto11.jpg" alt="Produto 11" onclick="abrirFotoGrande(this)"></div>
-                <div class="mural-coluna"><img src="imagens/comercial/papelaria_maos_criativas/produto12.jpg" alt="Produto 12" onclick="abrirFotoGrande(this)"></div>
-            </div>  
-            <div class="mural-linha">
-                <div class="mural-coluna"><img src="imagens/comercial/papelaria_maos_criativas/produto13.jpg" alt="Produto 13" onclick="abrirFotoGrande(this)"></div>
-                <div class="mural-coluna"><img src="imagens/comercial/papelaria_maos_criativas/produto14.jpg" alt="Produto 14" onclick="abrirFotoGrande(this)"></div>
-                <div class="mural-coluna"><img src="imagens/comercial/papelaria_maos_criativas/produto15.jpg" alt="Produto 15" onclick="abrirFotoGrande(this)"></div>
-            </div>
-            <div class="mural-linha">
-                <div class="mural-coluna"><img src="imagens/comercial/papelaria_maos_criativas/produto16.jpg" alt="Produto 16" onclick="abrirFotoGrande(this)"></div>
-                <div class="mural-coluna"><img src="imagens/comercial/papelaria_maos_criativas/produto17.jpg" alt="Produto 17" onclick="abrirFotoGrande(this)"></div>
-                <div class="mural-coluna"><img src="imagens/comercial/papelaria_maos_criativas/produto18.jpg" alt="Produto 18" onclick="abrirFotoGrande(this)"></div>
-            </div> 
-            <div class="mural-linha">
-                <div class="mural-coluna"><img src="imagens/comercial/papelaria_maos_criativas/produto19.jpg" alt="Produto 19" onclick="abrirFotoGrande(this)"></div>
-                <div class="mural-coluna"><img src="imagens/comercial/papelaria_maos_criativas/produto20.jpg" alt="Produto 20" onclick="abrirFotoGrande(this)"></div>
-                <div class="mural-coluna"><img src="imagens/comercial/papelaria_maos_criativas/produto21.jpg" alt="Produto 21" onclick="abrirFotoGrande(this)"></div>
-            </div>        
+            <div class="mural-coluna"><img src="imagens/comercial/papelaria_maos_criativas/produto1.jpg" alt="Produto 1" onclick="abrirFotoGrande(this)"></div>
+            <div class="mural-coluna"><img src="imagens/comercial/papelaria_maos_criativas/produto2.jpg" alt="Produto 2" onclick="abrirFotoGrande(this)"></div>
+            <div class="mural-coluna"><img src="imagens/comercial/papelaria_maos_criativas/produto3.jpg" alt="Produto 3" onclick="abrirFotoGrande(this)"></div>
+            <div class="mural-coluna"><img src="imagens/comercial/papelaria_maos_criativas/produto4.jpg" alt="Produto 4" onclick="abrirFotoGrande(this)"></div>
+            <div class="mural-coluna"><img src="imagens/comercial/papelaria_maos_criativas/produto5.jpg" alt="Produto 5" onclick="abrirFotoGrande(this)"></div>
+            <div class="mural-coluna"><img src="imagens/comercial/papelaria_maos_criativas/produto6.jpg" alt="Produto 6" onclick="abrirFotoGrande(this)"></div>
+            <div class="mural-coluna"><img src="imagens/comercial/papelaria_maos_criativas/produto7.jpg" alt="Produto 7" onclick="abrirFotoGrande(this)"></div>
+            <div class="mural-coluna"><img src="imagens/comercial/papelaria_maos_criativas/produto8.jpg" alt="Produto 8" onclick="abrirFotoGrande(this)"></div>
+            <div class="mural-coluna"><img src="imagens/comercial/papelaria_maos_criativas/produto9.jpg" alt="Produto 9" onclick="abrirFotoGrande(this)"></div>
+            <div class="mural-coluna"><img src="imagens/comercial/papelaria_maos_criativas/produto10.jpg" alt="Produto 10" onclick="abrirFotoGrande(this)"></div>
+            <div class="mural-coluna"><img src="imagens/comercial/papelaria_maos_criativas/produto11.jpg" alt="Produto 11" onclick="abrirFotoGrande(this)"></div>
+            <div class="mural-coluna"><img src="imagens/comercial/papelaria_maos_criativas/produto12.jpg" alt="Produto 12" onclick="abrirFotoGrande(this)"></div>
+            <div class="mural-coluna"><img src="imagens/comercial/papelaria_maos_criativas/produto13.jpg" alt="Produto 13" onclick="abrirFotoGrande(this)"></div>
+            <div class="mural-coluna"><img src="imagens/comercial/papelaria_maos_criativas/produto14.jpg" alt="Produto 14" onclick="abrirFotoGrande(this)"></div>
+            <div class="mural-coluna"><img src="imagens/comercial/papelaria_maos_criativas/produto15.jpg" alt="Produto 15" onclick="abrirFotoGrande(this)"></div>
+            <div class="mural-coluna"><img src="imagens/comercial/papelaria_maos_criativas/produto16.jpg" alt="Produto 16" onclick="abrirFotoGrande(this)"></div>
+            <div class="mural-coluna"><img src="imagens/comercial/papelaria_maos_criativas/produto17.jpg" alt="Produto 17" onclick="abrirFotoGrande(this)"></div>
+            <div class="mural-coluna"><img src="imagens/comercial/papelaria_maos_criativas/produto18.jpg" alt="Produto 18" onclick="abrirFotoGrande(this)"></div>
+            <div class="mural-coluna"><img src="imagens/comercial/papelaria_maos_criativas/produto19.jpg" alt="Produto 19" onclick="abrirFotoGrande(this)"></div>
+            <div class="mural-coluna"><img src="imagens/comercial/papelaria_maos_criativas/produto20.jpg" alt="Produto 20" onclick="abrirFotoGrande(this)"></div>
+            <div class="mural-coluna"><img src="imagens/comercial/papelaria_maos_criativas/produto21.jpg" alt="Produto 21" onclick="abrirFotoGrande(this)"></div>
         </div>
     </div>
 
     <!-- GALERIA: RUBRA FASHION - ENSAIO OUTUBRO -->
     <div class="galeria-fotos" id="galeria-rubra-outubro">
         <div class="mural-fotos">
-            <div class="mural-linha">
-                <div class="mural-coluna"><img src="imagens/comercial/moda_e_comercial/rubra_fashion/ensaio_outubro/moda1 (3).jpg" alt="Moda 3" onclick="abrirFotoGrande(this)"></div>
-                <div class="mural-coluna"><img src="imagens/comercial/moda_e_comercial/rubra_fashion/ensaio_outubro/moda1 (4).jpg" alt="Moda 4" onclick="abrirFotoGrande(this)"></div>
-                <div class="mural-coluna"><img src="imagens/comercial/moda_e_comercial/rubra_fashion/ensaio_outubro/moda1 (5).jpg" alt="Moda 5" onclick="abrirFotoGrande(this)"></div>
-            </div>
-            <div class="mural-linha">
-                <div class="mural-coluna"><img src="imagens/comercial/moda_e_comercial/rubra_fashion/ensaio_outubro/moda1 (6).jpg" alt="Moda 6" onclick="abrirFotoGrande(this)"></div>
-                <div class="mural-coluna"><img src="imagens/comercial/moda_e_comercial/rubra_fashion/ensaio_outubro/moda1 (7).jpg" alt="Moda 7" onclick="abrirFotoGrande(this)"></div>
-                <div class="mural-coluna"><img src="imagens/comercial/moda_e_comercial/rubra_fashion/ensaio_outubro/moda1 (8).jpg" alt="Moda 8" onclick="abrirFotoGrande(this)"></div>
-            </div>
-            <div class="mural-linha">
-                <div class="mural-coluna"><img src="imagens/comercial/moda_e_comercial/rubra_fashion/ensaio_outubro/moda1 (9).jpg" alt="Moda 9" onclick="abrirFotoGrande(this)"></div>
-                <div class="mural-coluna"><img src="imagens/comercial/moda_e_comercial/rubra_fashion/ensaio_outubro/moda1 (10).jpg" alt="Moda 10" onclick="abrirFotoGrande(this)"></div>
-                <div class="mural-coluna"><img src="imagens/comercial/moda_e_comercial/rubra_fashion/ensaio_outubro/moda1 (11).jpg" alt="Moda 11" onclick="abrirFotoGrande(this)"></div>
-            </div>
-            <div class="mural-linha">
-                <div class="mural-coluna"><img src="imagens/comercial/moda_e_comercial/rubra_fashion/ensaio_outubro/moda1 (12).jpg" alt="Moda 12" onclick="abrirFotoGrande(this)"></div>
-                <div class="mural-coluna"><img src="imagens/comercial/moda_e_comercial/rubra_fashion/ensaio_outubro/moda1 (13).jpg" alt="Moda 13" onclick="abrirFotoGrande(this)"></div>
-                <div class="mural-coluna"><img src="imagens/comercial/moda_e_comercial/rubra_fashion/ensaio_outubro/moda1 (14).jpg" alt="Moda 14" onclick="abrirFotoGrande(this)"></div>
-            </div>
-            <div class="mural-linha">
-                <div class="mural-coluna"><img src="imagens/comercial/moda_e_comercial/rubra_fashion/ensaio_outubro/moda1 (15).jpg" alt="Moda 15" onclick="abrirFotoGrande(this)"></div>
-                <div class="mural-coluna"><img src="imagens/comercial/moda_e_comercial/rubra_fashion/ensaio_outubro/moda1 (16).jpg" alt="Moda 16" onclick="abrirFotoGrande(this)"></div>
-                <div class="mural-coluna"><img src="imagens/comercial/moda_e_comercial/rubra_fashion/ensaio_outubro/moda1 (17).jpg" alt="Moda 17" onclick="abrirFotoGrande(this)"></div>
-            </div>
-            <div class="mural-linha">
-                <div class="mural-coluna"><img src="imagens/comercial/moda_e_comercial/rubra_fashion/ensaio_outubro/moda1 (18).jpg" alt="Moda 18" onclick="abrirFotoGrande(this)"></div>
-                <div class="mural-coluna"><img src="imagens/comercial/moda_e_comercial/rubra_fashion/ensaio_outubro/moda1 (19).jpg" alt="Moda 19" onclick="abrirFotoGrande(this)"></div>
-                <div class="mural-coluna"><img src="imagens/comercial/moda_e_comercial/rubra_fashion/ensaio_outubro/moda1 (20).jpg" alt="Moda 20" onclick="abrirFotoGrande(this)"></div>
-            </div>
-            <div class="mural-linha">
-                <div class="mural-coluna"><img src="imagens/comercial/moda_e_comercial/rubra_fashion/ensaio_outubro/moda1 (21).jpg" alt="Moda 21" onclick="abrirFotoGrande(this)"></div>
-                <div class="mural-coluna"><img src="imagens/comercial/moda_e_comercial/rubra_fashion/ensaio_outubro/moda1 (22).jpg" alt="Moda 22" onclick="abrirFotoGrande(this)"></div>
-                <div class="mural-coluna"><img src="imagens/comercial/moda_e_comercial/rubra_fashion/ensaio_outubro/moda1 (23).jpg" alt="Moda 23" onclick="abrirFotoGrande(this)"></div>
-            </div>
-            <div class="mural-linha">
-                <div class="mural-coluna"><img src="imagens/comercial/moda_e_comercial/rubra_fashion/ensaio_outubro/moda1 (24).jpg" alt="Moda 24" onclick="abrirFotoGrande(this)"></div>
-                <div class="mural-coluna"><img src="imagens/comercial/moda_e_comercial/rubra_fashion/ensaio_outubro/moda1 (25).jpg" alt="Moda 25" onclick="abrirFotoGrande(this)"></div>
-                <div class="mural-coluna"><img src="imagens/comercial/moda_e_comercial/rubra_fashion/ensaio_outubro/moda1 (26).jpg" alt="Moda 26" onclick="abrirFotoGrande(this)"></div>
-            </div>
-            <div class="mural-linha">
-                <div class="mural-coluna"><img src="imagens/comercial/moda_e_comercial/rubra_fashion/ensaio_outubro/moda1 (27).jpg" alt="Moda 27" onclick="abrirFotoGrande(this)"></div>
-                <div class="mural-coluna"><img src="imagens/comercial/moda_e_comercial/rubra_fashion/ensaio_outubro/moda1 (28).jpg" alt="Moda 28" onclick="abrirFotoGrande(this)"></div>
-                <div class="mural-coluna"><img src="imagens/comercial/moda_e_comercial/rubra_fashion/ensaio_outubro/moda1 (29).jpg" alt="Moda 29" onclick="abrirFotoGrande(this)"></div>
-            </div>
-            <div class="mural-linha">
-                <div class="mural-coluna"><img src="imagens/comercial/moda_e_comercial/rubra_fashion/ensaio_outubro/moda1 (30).jpg" alt="Moda 30" onclick="abrirFotoGrande(this)"></div>
-                <div class="mural-coluna"><img src="imagens/comercial/moda_e_comercial/rubra_fashion/ensaio_outubro/moda1 (31).jpg" alt="Moda 31" onclick="abrirFotoGrande(this)"></div>
-                <div class="mural-coluna"><img src="imagens/comercial/moda_e_comercial/rubra_fashion/ensaio_outubro/moda1 (32).jpg" alt="Moda 32" onclick="abrirFotoGrande(this)"></div>
-            </div>
-            <div class="mural-linha">
-                <div class="mural-coluna"><img src="imagens/comercial/moda_e_comercial/rubra_fashion/ensaio_outubro/moda1 (33).jpg" alt="Moda 33" onclick="abrirFotoGrande(this)"></div>
-                <div class="mural-coluna"><img src="imagens/comercial/moda_e_comercial/rubra_fashion/ensaio_outubro/moda1 (34).jpg" alt="Moda 34" onclick="abrirFotoGrande(this)"></div>
-                <div class="mural-coluna"><img src="imagens/comercial/moda_e_comercial/rubra_fashion/ensaio_outubro/moda1 (35).jpg" alt="Moda 35" onclick="abrirFotoGrande(this)"></div>
-            </div>
-            <div class="mural-linha">
-                <div class="mural-coluna"><img src="imagens/comercial/moda_e_comercial/rubra_fashion/ensaio_outubro/moda1 (36).jpg" alt="Moda 36" onclick="abrirFotoGrande(this)"></div>
-                <div class="mural-coluna"><img src="imagens/comercial/moda_e_comercial/rubra_fashion/ensaio_outubro/moda1 (37).jpg" alt="Moda 37" onclick="abrirFotoGrande(this)"></div>
-                <div class="mural-coluna"><img src="imagens/comercial/moda_e_comercial/rubra_fashion/ensaio_outubro/moda1 (38).jpg" alt="Moda 38" onclick="abrirFotoGrande(this)"></div>
-            </div>
-            <div class="mural-linha">
-                <div class="mural-coluna"><img src="imagens/comercial/moda_e_comercial/rubra_fashion/ensaio_outubro/moda1 (39).jpg" alt="Moda 39" onclick="abrirFotoGrande(this)"></div>
-                <div class="mural-coluna"><img src="imagens/comercial/moda_e_comercial/rubra_fashion/ensaio_outubro/moda1 (40).jpg" alt="Moda 40" onclick="abrirFotoGrande(this)"></div>
-                <div class="mural-coluna"><img src="imagens/comercial/moda_e_comercial/rubra_fashion/ensaio_outubro/moda1 (41).jpg" alt="Moda 41" onclick="abrirFotoGrande(this)"></div>
-            </div>
-            <div class="mural-linha">
-                <div class="mural-coluna"><img src="imagens/comercial/moda_e_comercial/rubra_fashion/ensaio_outubro/moda1 (42).jpg" alt="Moda 42" onclick="abrirFotoGrande(this)"></div>
-                <div class="mural-coluna"><img src="imagens/comercial/moda_e_comercial/rubra_fashion/ensaio_outubro/moda1 (43).jpg" alt="Moda 43" onclick="abrirFotoGrande(this)"></div>
-                <div class="mural-coluna"><img src="imagens/comercial/moda_e_comercial/rubra_fashion/ensaio_outubro/moda1 (44).jpg" alt="Moda 44" onclick="abrirFotoGrande(this)"></div>
-            </div>
-            <div class="mural-linha">
-                <div class="mural-coluna"><img src="imagens/comercial/moda_e_comercial/rubra_fashion/ensaio_outubro/moda1 (45).jpg" alt="Moda 45" onclick="abrirFotoGrande(this)"></div>
-                <div class="mural-coluna"><img src="imagens/comercial/moda_e_comercial/rubra_fashion/ensaio_outubro/moda1 (46).jpg" alt="Moda 46" onclick="abrirFotoGrande(this)"></div>
-                <div class="mural-coluna"><img src="imagens/comercial/moda_e_comercial/rubra_fashion/ensaio_outubro/moda1 (47).jpg" alt="Moda 47" onclick="abrirFotoGrande(this)"></div>
-            </div>
-            <div class="mural-linha">
-                <div class="mural-coluna"><img src="imagens/comercial/moda_e_comercial/rubra_fashion/ensaio_outubro/moda1 (48).jpg" alt="Moda 48" onclick="abrirFotoGrande(this)"></div>
-                <div class="mural-coluna" style="visibility: hidden; border: none; background: transparent;"></div>
-                <div class="mural-coluna" style="visibility: hidden; border: none; background: transparent;"></div>
-            </div>
+            <div class="mural-coluna"><img src="imagens/comercial/moda_e_comercial/rubra_fashion/ensaio_outubro/moda1 (3).jpg" alt="Moda 3" onclick="abrirFotoGrande(this)"></div>
+            <div class="mural-coluna"><img src="imagens/comercial/moda_e_comercial/rubra_fashion/ensaio_outubro/moda1 (4).jpg" alt="Moda 4" onclick="abrirFotoGrande(this)"></div>
+            <div class="mural-coluna"><img src="imagens/comercial/moda_e_comercial/rubra_fashion/ensaio_outubro/moda1 (5).jpg" alt="Moda 5" onclick="abrirFotoGrande(this)"></div>
+            <div class="mural-coluna"><img src="imagens/comercial/moda_e_comercial/rubra_fashion/ensaio_outubro/moda1 (6).jpg" alt="Moda 6" onclick="abrirFotoGrande(this)"></div>
+            <div class="mural-coluna"><img src="imagens/comercial/moda_e_comercial/rubra_fashion/ensaio_outubro/moda1 (7).jpg" alt="Moda 7" onclick="abrirFotoGrande(this)"></div>
+            <div class="mural-coluna"><img src="imagens/comercial/moda_e_comercial/rubra_fashion/ensaio_outubro/moda1 (8).jpg" alt="Moda 8" onclick="abrirFotoGrande(this)"></div>
+            <div class="mural-coluna"><img src="imagens/comercial/moda_e_comercial/rubra_fashion/ensaio_outubro/moda1 (9).jpg" alt="Moda 9" onclick="abrirFotoGrande(this)"></div>
+            <div class="mural-coluna"><img src="imagens/comercial/moda_e_comercial/rubra_fashion/ensaio_outubro/moda1 (10).jpg" alt="Moda 10" onclick="abrirFotoGrande(this)"></div>
+            <div class="mural-coluna"><img src="imagens/comercial/moda_e_comercial/rubra_fashion/ensaio_outubro/moda1 (11).jpg" alt="Moda 11" onclick="abrirFotoGrande(this)"></div>
+            <div class="mural-coluna"><img src="imagens/comercial/moda_e_comercial/rubra_fashion/ensaio_outubro/moda1 (12).jpg" alt="Moda 12" onclick="abrirFotoGrande(this)"></div>
+            <div class="mural-coluna"><img src="imagens/comercial/moda_e_comercial/rubra_fashion/ensaio_outubro/moda1 (13).jpg" alt="Moda 13" onclick="abrirFotoGrande(this)"></div>
+            <div class="mural-coluna"><img src="imagens/comercial/moda_e_comercial/rubra_fashion/ensaio_outubro/moda1 (14).jpg" alt="Moda 14" onclick="abrirFotoGrande(this)"></div>
+            <div class="mural-coluna"><img src="imagens/comercial/moda_e_comercial/rubra_fashion/ensaio_outubro/moda1 (15).jpg" alt="Moda 15" onclick="abrirFotoGrande(this)"></div>
+            <div class="mural-coluna"><img src="imagens/comercial/moda_e_comercial/rubra_fashion/ensaio_outubro/moda1 (16).jpg" alt="Moda 16" onclick="abrirFotoGrande(this)"></div>
+            <div class="mural-coluna"><img src="imagens/comercial/moda_e_comercial/rubra_fashion/ensaio_outubro/moda1 (17).jpg" alt="Moda 17" onclick="abrirFotoGrande(this)"></div>
+            <div class="mural-coluna"><img src="imagens/comercial/moda_e_comercial/rubra_fashion/ensaio_outubro/moda1 (18).jpg" alt="Moda 18" onclick="abrirFotoGrande(this)"></div>
+            <div class="mural-coluna"><img src="imagens/comercial/moda_e_comercial/rubra_fashion/ensaio_outubro/moda1 (19).jpg" alt="Moda 19" onclick="abrirFotoGrande(this)"></div>
+            <div class="mural-coluna"><img src="imagens/comercial/moda_e_comercial/rubra_fashion/ensaio_outubro/moda1 (20).jpg" alt="Moda 20" onclick="abrirFotoGrande(this)"></div>
+            <div class="mural-coluna"><img src="imagens/comercial/moda_e_comercial/rubra_fashion/ensaio_outubro/moda1 (21).jpg" alt="Moda 21" onclick="abrirFotoGrande(this)"></div>
+            <div class="mural-coluna"><img src="imagens/comercial/moda_e_comercial/rubra_fashion/ensaio_outubro/moda1 (22).jpg" alt="Moda 22" onclick="abrirFotoGrande(this)"></div>
+            <div class="mural-coluna"><img src="imagens/comercial/moda_e_comercial/rubra_fashion/ensaio_outubro/moda1 (23).jpg" alt="Moda 23" onclick="abrirFotoGrande(this)"></div>
+            <div class="mural-coluna"><img src="imagens/comercial/moda_e_comercial/rubra_fashion/ensaio_outubro/moda1 (24).jpg" alt="Moda 24" onclick="abrirFotoGrande(this)"></div>
+            <div class="mural-coluna"><img src="imagens/comercial/moda_e_comercial/rubra_fashion/ensaio_outubro/moda1 (25).jpg" alt="Moda 25" onclick="abrirFotoGrande(this)"></div>
+            <div class="mural-coluna"><img src="imagens/comercial/moda_e_comercial/rubra_fashion/ensaio_outubro/moda1 (26).jpg" alt="Moda 26" onclick="abrirFotoGrande(this)"></div>
+            <div class="mural-coluna"><img src="imagens/comercial/moda_e_comercial/rubra_fashion/ensaio_outubro/moda1 (27).jpg" alt="Moda 27" onclick="abrirFotoGrande(this)"></div>
+            <div class="mural-coluna"><img src="imagens/comercial/moda_e_comercial/rubra_fashion/ensaio_outubro/moda1 (28).jpg" alt="Moda 28" onclick="abrirFotoGrande(this)"></div>
+            <div class="mural-coluna"><img src="imagens/comercial/moda_e_comercial/rubra_fashion/ensaio_outubro/moda1 (29).jpg" alt="Moda 29" onclick="abrirFotoGrande(this)"></div>
+            <div class="mural-coluna"><img src="imagens/comercial/moda_e_comercial/rubra_fashion/ensaio_outubro/moda1 (30).jpg" alt="Moda 30" onclick="abrirFotoGrande(this)"></div>
+            <div class="mural-coluna"><img src="imagens/comercial/moda_e_comercial/rubra_fashion/ensaio_outubro/moda1 (31).jpg" alt="Moda 31" onclick="abrirFotoGrande(this)"></div>
+            <div class="mural-coluna"><img src="imagens/comercial/moda_e_comercial/rubra_fashion/ensaio_outubro/moda1 (32).jpg" alt="Moda 32" onclick="abrirFotoGrande(this)"></div>
+            <div class="mural-coluna"><img src="imagens/comercial/moda_e_comercial/rubra_fashion/ensaio_outubro/moda1 (33).jpg" alt="Moda 33" onclick="abrirFotoGrande(this)"></div>
+            <div class="mural-coluna"><img src="imagens/comercial/moda_e_comercial/rubra_fashion/ensaio_outubro/moda1 (34).jpg" alt="Moda 34" onclick="abrirFotoGrande(this)"></div>
+            <div class="mural-coluna"><img src="imagens/comercial/moda_e_comercial/rubra_fashion/ensaio_outubro/moda1 (35).jpg" alt="Moda 35" onclick="abrirFotoGrande(this)"></div>
+            <div class="mural-coluna"><img src="imagens/comercial/moda_e_comercial/rubra_fashion/ensaio_outubro/moda1 (36).jpg" alt="Moda 36" onclick="abrirFotoGrande(this)"></div>
+            <div class="mural-coluna"><img src="imagens/comercial/moda_e_comercial/rubra_fashion/ensaio_outubro/moda1 (37).jpg" alt="Moda 37" onclick="abrirFotoGrande(this)"></div>
+            <div class="mural-coluna"><img src="imagens/comercial/moda_e_comercial/rubra_fashion/ensaio_outubro/moda1 (38).jpg" alt="Moda 38" onclick="abrirFotoGrande(this)"></div>
+            <div class="mural-coluna"><img src="imagens/comercial/moda_e_comercial/rubra_fashion/ensaio_outubro/moda1 (39).jpg" alt="Moda 39" onclick="abrirFotoGrande(this)"></div>
+            <div class="mural-coluna"><img src="imagens/comercial/moda_e_comercial/rubra_fashion/ensaio_outubro/moda1 (40).jpg" alt="Moda 40" onclick="abrirFotoGrande(this)"></div>
+            <div class="mural-coluna"><img src="imagens/comercial/moda_e_comercial/rubra_fashion/ensaio_outubro/moda1 (41).jpg" alt="Moda 41" onclick="abrirFotoGrande(this)"></div>
+            <div class="mural-coluna"><img src="imagens/comercial/moda_e_comercial/rubra_fashion/ensaio_outubro/moda1 (42).jpg" alt="Moda 42" onclick="abrirFotoGrande(this)"></div>
+            <div class="mural-coluna"><img src="imagens/comercial/moda_e_comercial/rubra_fashion/ensaio_outubro/moda1 (43).jpg" alt="Moda 43" onclick="abrirFotoGrande(this)"></div>
+            <div class="mural-coluna"><img src="imagens/comercial/moda_e_comercial/rubra_fashion/ensaio_outubro/moda1 (44).jpg" alt="Moda 44" onclick="abrirFotoGrande(this)"></div>
+            <div class="mural-coluna"><img src="imagens/comercial/moda_e_comercial/rubra_fashion/ensaio_outubro/moda1 (45).jpg" alt="Moda 45" onclick="abrirFotoGrande(this)"></div>
+            <div class="mural-coluna"><img src="imagens/comercial/moda_e_comercial/rubra_fashion/ensaio_outubro/moda1 (46).jpg" alt="Moda 46" onclick="abrirFotoGrande(this)"></div>
+            <div class="mural-coluna"><img src="imagens/comercial/moda_e_comercial/rubra_fashion/ensaio_outubro/moda1 (47).jpg" alt="Moda 47" onclick="abrirFotoGrande(this)"></div>
+            <div class="mural-coluna"><img src="imagens/comercial/moda_e_comercial/rubra_fashion/ensaio_outubro/moda1 (48).jpg" alt="Moda 48" onclick="abrirFotoGrande(this)"></div>
         </div>
     </div>
 
     <!-- =========================================================
-         5. JANELA FLUTUANTE (LIGHTBOX)
+         5. JANELA FLUTUANTE (LIGHTBOX NAVEGÁVEL NO TELEMÓVEL)
          ========================================================= -->
     <div id="visualizadorLightbox" class="lightbox-modal">
         <span class="lightbox-close" onclick="fecharFotoGrande()">&times;</span>
@@ -453,7 +371,7 @@
     </div>
 
     <!-- =========================================================
-         6. LÓGICA INTERATIVA (JAVASCRIPT CORRIGIDO)
+         6. LÓGICA INTERATIVA (JAVASCRIPT)
          ========================================================= -->
     <script>
         var listaFotosAtiva = [];
@@ -487,19 +405,19 @@
 
         function voltarParaMenuPrincipal() {
             esconderTudo();
-            document.getElementById("menu-temas").style.display = (window.innerWidth <= 768) ? "block" : "table";
+            document.getElementById("menu-temas").style.display = "flex";
             document.getElementById("btn-voltar-home").style.display = "inline-block";
         }
 
         function abrirSubMenuModa() {
             esconderTudo();
-            document.getElementById("menu-moda").style.display = (window.innerWidth <= 768) ? "block" : "table";
+            document.getElementById("menu-moda").style.display = "flex";
             document.getElementById("btn-voltar-temas").style.display = "inline-block";
         }
 
         function abrirSubMenuRubra() {
             esconderTudo();
-            document.getElementById("menu-rubra").style.display = (window.innerWidth <= 768) ? "block" : "table";
+            document.getElementById("menu-rubra").style.display = "flex";
             document.getElementById("btn-voltar-moda").style.display = "inline-block";
         }
 
@@ -523,9 +441,7 @@
             listaFotosAtiva = [];
             
             imagensGerais.forEach(function(img) {
-                if (img.parentElement.style.visibility !== "hidden") {
-                    listaFotosAtiva.push(img);
-                }
+                listaFotosAtiva.push(img);
             });
         }
 
@@ -573,7 +489,7 @@
             }
         });
 
-        /* Navegação por Gesto no Celular (Swipe) */
+        /* Navegação por Gesto no Telemóvel (Swipe) */
         var lightboxElement = document.getElementById("visualizadorLightbox");
         
         lightboxElement.addEventListener('touchstart', function(e) {
