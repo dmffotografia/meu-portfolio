@@ -110,7 +110,7 @@
             display: none;
         }
 
-        /* Mural de Fotos */
+        /* Mural de Fotos (Mantém a Grade Exata) */
         .mural-fotos {
             display: table;
             width: 100%;
@@ -144,7 +144,7 @@
             cursor: pointer;
         }
 
-        /* Estilo do Visualizador de Fotos (Lightbox Corrigido com Flexbox e Controles) */
+        /* Lightbox Limpo (Sem Botões de Seta na Tela) */
         .lightbox-modal {
             display: none;
             position: fixed;
@@ -183,39 +183,15 @@
             color: var(--accent-blue);
         }
 
-        .lightbox-btn {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background: rgba(0, 0, 0, 0.6);
-            color: #ffffff;
-            border: 1px solid var(--accent-blue);
-            font-size: 24px;
-            padding: 12px 16px;
-            cursor: pointer;
-            border-radius: 50%;
-            user-select: none;
-            transition: background 0.3s;
-            z-index: 3001;
-        }
-
-        .lightbox-btn:hover {
-            background: var(--accent-blue);
-            color: #000;
-        }
-
-        .lightbox-prev { left: 15px; }
-        .lightbox-next { right: 15px; }
-
         /* =========================================================
-           AJUSTE APENAS PARA OS CARDS DE GRUPOS/CATEGORIAS NO MOBILE
+           AJUSTE EXCLUSIVO MOBILE: CARDS SEM ESPREMER
            ========================================================= */
         @media (max-width: 768px) {
             body {
                 padding: 15px 3%;
             }
 
-            /* Transforma apenas a grelha dos menus em blocos de largura cheia */
+            /* Deixa apenas as subpastas/cards em 100% no celular */
             .grid-menu, 
             .menu-linha, 
             .quadrado-tema {
@@ -231,14 +207,8 @@
                 height: 200px;
             }
 
-            /* Esconde os quadrados invisíveis de reserva no mobile */
             .quadrado-tema[style*="visibility: hidden"] {
                 display: none !important;
-            }
-
-            .lightbox-btn {
-                padding: 8px 12px;
-                font-size: 18px;
             }
         }
     </style>
@@ -316,7 +286,7 @@
     </div>
 
     <!-- =========================================================
-         4. GALERIAS DE FOTOS (MURAIS)
+         4. GALERIAS DE FOTOS (MURAIS EM GRADE)
          ========================================================= -->
 
     <!-- GALERIA: PAPELARIA MÃOS CRIATIVAS -->
@@ -450,13 +420,11 @@
     </div>
 
     <!-- =========================================================
-         5. JANELA FLUTUANTE (LIGHTBOX NAVEGÁVEL)
+         5. JANELA FLUTUANTE (LIGHTBOX LIMPO)
          ========================================================= -->
     <div id="visualizadorLightbox" class="lightbox-modal">
         <span class="lightbox-close" onclick="fecharFotoGrande()">&times;</span>
-        <button class="lightbox-btn lightbox-prev" onclick="mudarFoto(-1); event.stopPropagation();">&#10094;</button>
         <img class="lightbox-content" id="fotoExpandida">
-        <button class="lightbox-btn lightbox-next" onclick="mudarFoto(1); event.stopPropagation();">&#10095;</button>
     </div>
 
     <!-- =========================================================
@@ -566,7 +534,7 @@
             }
         });
 
-        /* Navegação via Teclado */
+        /* Navegação via Teclado (Seta Direita, Seta Esquerda e ESC) */
         document.addEventListener('keydown', function(event) {
             var lightbox = document.getElementById("visualizadorLightbox");
             if (lightbox && lightbox.style.display === "flex") {
@@ -580,7 +548,7 @@
             }
         });
 
-        /* Navegação por Gesto no Celular (Swipe) */
+        /* Navegação por Gesto no Celular (Swipe para os Lados) */
         var lightboxElement = document.getElementById("visualizadorLightbox");
         
         lightboxElement.addEventListener('touchstart', function(e) {
