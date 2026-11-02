@@ -43,26 +43,21 @@
             color: var(--accent-blue);
         }
 
-        /* Estrutura de Tabela para os Quadrados de Temas / Clientes */
+        /* Estrutura Moderna Flexbox para Menus e Sub-menus */
         .grid-menu {
-            display: table;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
             width: 100%;
-            border-collapse: separate;
-            border-spacing: 20px;
-        }
-
-        .menu-linha {
-            display: table-row;
         }
 
         .quadrado-tema {
-            display: table-cell;
-            width: 33.33%;
+            flex: 1 1 calc(33.333% - 20px);
+            max-width: calc(33.333% - 13.33px);
             background-color: var(--surface-color);
             border: 1px solid var(--border-color);
             border-radius: 12px;
             overflow: hidden;
-            vertical-align: top;
             text-align: center;
             padding-bottom: 25px;
             transition: transform 0.3s, border-color 0.3s;
@@ -110,23 +105,18 @@
             display: none;
         }
 
-        /* Mural de Fotos */
+        /* Mural de Fotos em Flexbox */
         .mural-fotos {
-            display: table;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
             width: 100%;
-            border-collapse: separate;
-            border-spacing: 15px;
             margin-top: 20px;
         }
 
-        .mural-linha {
-            display: table-row;
-        }
-
         .mural-coluna {
-            display: table-cell;
-            width: 33.33%;
-            vertical-align: top;
+            flex: 1 1 calc(33.333% - 15px);
+            max-width: calc(33.333% - 10px);
         }
 
         .mural-coluna img {
@@ -144,28 +134,27 @@
             cursor: pointer;
         }
 
-        /* Estilo do Lightbox */
+        /* Lightbox Modal */
         .lightbox-modal {
             display: none;
             position: fixed;
             z-index: 3000;
             left: 0;
             top: 0;
-            width: 100%;
-            height: 100%;
+            width: 100vw;
+            height: 100vh;
             background-color: rgba(0, 0, 0, 0.95);
-            text-align: center;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            touch-action: pan-y;
         }
 
         .lightbox-content {
             max-width: 90%;
-            max-height: 80vh;
-            margin: 5vh auto;
-            display: inline-block;
-            vertical-align: middle;
+            max-height: 85vh;
             border-radius: 4px;
             box-shadow: 0 0 20px rgba(0, 229, 255, 0.2);
-            animation: zoomIn 0.3s ease;
         }
 
         .lightbox-close {
@@ -177,21 +166,63 @@
             font-weight: bold;
             cursor: pointer;
             transition: color 0.3s;
+            z-index: 3002;
         }
 
         .lightbox-close:hover {
             color: var(--accent-blue);
         }
 
-        .lightbox-helper {
-            display: inline-block;
-            height: 100%;
-            vertical-align: middle;
+        /* Setas Ocultas no Computador */
+        .lightbox-btn {
+            display: none;
         }
 
-        @keyframes zoomIn {
-            from { transform: scale(0.9); opacity: 0; }
-            to { transform: scale(1); opacity: 1; }
+        /* =========================================================
+           RESPONSIVIDADE EXCLUSIVA PARA CELULAR (ATÉ 768px)
+           ========================================================= */
+        @media (max-width: 768px) {
+            body {
+                padding: 15px 3%;
+            }
+
+            /* No celular, os cards ocupam a largura total */
+            .quadrado-tema {
+                flex: 1 1 100%;
+                max-width: 100%;
+            }
+
+            .quadrado-tema img {
+                height: 200px;
+            }
+
+            /* Fotos em grade de 2 colunas no celular */
+            .mural-coluna {
+                flex: 1 1 calc(50% - 15px);
+                max-width: calc(50% - 7.5px);
+            }
+
+            /* Ativa as setas flutuantes APENAS no celular */
+            .lightbox-btn {
+                display: flex !important;
+                align-items: center;
+                justify-content: center;
+                position: absolute;
+                top: 50%;
+                transform: translateY(-50%);
+                background: rgba(0, 0, 0, 0.6);
+                color: #ffffff;
+                border: 1px solid var(--accent-blue);
+                font-size: 18px;
+                padding: 8px 12px;
+                cursor: pointer;
+                border-radius: 50%;
+                user-select: none;
+                z-index: 3001;
+            }
+
+            .lightbox-prev { left: 10px; }
+            .lightbox-next { right: 10px; }
         }
     </style>
 </head>
@@ -206,19 +237,11 @@
          1. MENU PRINCIPAL DE FLYERS
          ========================================================= -->
     <div class="grid-menu" id="menu-temas">
-        <div class="menu-linha">
-            
-            <!-- Categoria 1: Papelaria Mãos Criativas -->
-            <div class="quadrado-tema">
-                <img src="imagens/flyers/papelaria_maos_criativas/catalogo_oficial/catologo_oficial (1).jpg" alt="Papelaria Mãos Criativas">
-                <h3>PAPELARIA MÃOS CRIATIVAS</h3>
-                <button class="btn-abrir" onclick="abrirSubMenuPapelaria()">Ver Catálogo</button>
-            </div>
-
-            <!-- Espaços reservados para novos projetos de flyers -->
-            <div class="quadrado-tema" style="visibility: hidden; border: none; background: transparent;"></div>
-            <div class="quadrado-tema" style="visibility: hidden; border: none; background: transparent;"></div>
-
+        <!-- Categoria 1: Papelaria Mãos Criativas -->
+        <div class="quadrado-tema">
+            <img src="imagens/flyers/papelaria_maos_criativas/catalogo_oficial/catologo_oficial (1).jpg" alt="Papelaria Mãos Criativas">
+            <h3>PAPELARIA MÃOS CRIATIVAS</h3>
+            <button class="btn-abrir" onclick="abrirSubMenuPapelaria()">Ver Catálogo</button>
         </div>
     </div>
 
@@ -226,16 +249,10 @@
          2. SUB-MENU: PAPELARIA MÃOS CRIATIVAS
          ========================================================= -->
     <div class="grid-menu sub-menu" id="menu-papelaria">
-        <h2 style="color: var(--accent-blue); text-align: center; margin-bottom: 25px; width: 100%;"></h2>
-        
-        <div class="menu-linha">
-            <div class="quadrado-tema">
-                <img src="imagens/flyers/papelaria_maos_criativas/catalogo_oficial/catologo_oficial (1).jpg" alt="Catálogo Oficial">
-                <h3>CATÁLOGO</h3>
-                <button class="btn-abrir" onclick="abrirGaleria('galeria-catalogo-oficial', 'papelaria')">Ver Fotos</button>
-            </div>
-            <div class="quadrado-tema" style="visibility: hidden; border: none; background: transparent;"></div>
-            <div class="quadrado-tema" style="visibility: hidden; border: none; background: transparent;"></div>
+        <div class="quadrado-tema">
+            <img src="imagens/flyers/papelaria_maos_criativas/catalogo_oficial/catologo_oficial (1).jpg" alt="Catálogo Oficial">
+            <h3>CATÁLOGO</h3>
+            <button class="btn-abrir" onclick="abrirGaleria('galeria-catalogo-oficial', 'papelaria')">Ver Fotos</button>
         </div>
     </div>
 
@@ -244,34 +261,28 @@
          ========================================================= -->
 
     <!-- GALERIA: CATÁLOGO OFICIAL -->
-    <!-- GALERIA: CATÁLOGO OFICIAL -->
     <div class="galeria-fotos" id="galeria-catalogo-oficial">
-        <h2 style="color: var(--accent-blue); text-align: center; margin-bottom: 20px;"></h2>
         <div class="mural-fotos">
-            <div class="mural-linha">
-                <div class="mural-coluna"><img src="imagens/flyers/papelaria_maos_criativas/catalogo_oficial/catologo_oficial (2).jpg" alt="Flyer 2" onclick="abrirFotoGrande(this)"></div>
-                <div class="mural-coluna"><img src="imagens/flyers/papelaria_maos_criativas/catalogo_oficial/catologo_oficial (3).jpg" alt="Flyer 3" onclick="abrirFotoGrande(this)"></div>
-                <div class="mural-coluna"><img src="imagens/flyers/papelaria_maos_criativas/catalogo_oficial/catologo_oficial (4).jpg" alt="Flyer 4" onclick="abrirFotoGrande(this)"></div>
-            </div>
-            <div class="mural-linha">
-                <div class="mural-coluna"><img src="imagens/flyers/papelaria_maos_criativas/catalogo_oficial/catologo_oficial (5).jpg" alt="Flyer 5" onclick="abrirFotoGrande(this)"></div>
-                <div class="mural-coluna"><img src="imagens/flyers/papelaria_maos_criativas/catalogo_oficial/catologo_oficial (6).jpg" alt="Flyer 6" onclick="abrirFotoGrande(this)"></div>
-                <div class="mural-coluna"><img src="imagens/flyers/papelaria_maos_criativas/catalogo_oficial/catologo_oficial (7).jpg" alt="Flyer 7" onclick="abrirFotoGrande(this)"></div>
-            </div>
-            <div class="mural-linha">
-                <div class="mural-coluna"><img src="imagens/flyers/papelaria_maos_criativas/catalogo_oficial/catologo_oficial (8).jpg" alt="Flyer 8" onclick="abrirFotoGrande(this)"></div>
-                <div class="mural-coluna"><img src="imagens/flyers/papelaria_maos_criativas/catalogo_oficial/catologo_oficial (9).jpg" alt="Flyer 9" onclick="abrirFotoGrande(this)"></div>
-                <div class="mural-coluna"><img src="imagens/flyers/papelaria_maos_criativas/catalogo_oficial/catologo_oficial (10).jpg" alt="Flyer 10" onclick="abrirFotoGrande(this)"></div>
-            </div>
+            <div class="mural-coluna"><img src="imagens/flyers/papelaria_maos_criativas/catalogo_oficial/catologo_oficial (2).jpg" alt="Flyer 2" onclick="abrirFotoGrande(this)"></div>
+            <div class="mural-coluna"><img src="imagens/flyers/papelaria_maos_criativas/catalogo_oficial/catologo_oficial (3).jpg" alt="Flyer 3" onclick="abrirFotoGrande(this)"></div>
+            <div class="mural-coluna"><img src="imagens/flyers/papelaria_maos_criativas/catalogo_oficial/catologo_oficial (4).jpg" alt="Flyer 4" onclick="abrirFotoGrande(this)"></div>
+            <div class="mural-coluna"><img src="imagens/flyers/papelaria_maos_criativas/catalogo_oficial/catologo_oficial (5).jpg" alt="Flyer 5" onclick="abrirFotoGrande(this)"></div>
+            <div class="mural-coluna"><img src="imagens/flyers/papelaria_maos_criativas/catalogo_oficial/catologo_oficial (6).jpg" alt="Flyer 6" onclick="abrirFotoGrande(this)"></div>
+            <div class="mural-coluna"><img src="imagens/flyers/papelaria_maos_criativas/catalogo_oficial/catologo_oficial (7).jpg" alt="Flyer 7" onclick="abrirFotoGrande(this)"></div>
+            <div class="mural-coluna"><img src="imagens/flyers/papelaria_maos_criativas/catalogo_oficial/catologo_oficial (8).jpg" alt="Flyer 8" onclick="abrirFotoGrande(this)"></div>
+            <div class="mural-coluna"><img src="imagens/flyers/papelaria_maos_criativas/catalogo_oficial/catologo_oficial (9).jpg" alt="Flyer 9" onclick="abrirFotoGrande(this)"></div>
+            <div class="mural-coluna"><img src="imagens/flyers/papelaria_maos_criativas/catalogo_oficial/catologo_oficial (10).jpg" alt="Flyer 10" onclick="abrirFotoGrande(this)"></div>
         </div>
     </div>
 
-<!-- =========================================================
-         4. JANELA FLUTUANTE (LIGHTBOX)
+    <!-- =========================================================
+         4. JANELA FLUTUANTE (LIGHTBOX NAVEGÁVEL NO CELULAR)
          ========================================================= -->
-    <div id="visualizadorLightbox" class="lightbox-modal" onclick="fecharFotoGrande()">
-        <span class="lightbox-close">&times;</span>
+    <div id="visualizadorLightbox" class="lightbox-modal">
+        <span class="lightbox-close" onclick="fecharFotoGrande()">&times;</span>
+        <button class="lightbox-btn lightbox-prev" onclick="mudarFoto(-1); event.stopPropagation();">&#10094;</button>
         <img class="lightbox-content" id="fotoExpandida">
+        <button class="lightbox-btn lightbox-next" onclick="mudarFoto(1); event.stopPropagation();">&#10095;</button>
     </div>
 
     <!-- =========================================================
@@ -280,6 +291,8 @@
     <script>
         var listaFotosAtiva = [];
         var indexFotoAtual = -1;
+        var touchStartX = 0;
+        var touchEndX = 0;
 
         function esconderTudo() {
             document.getElementById("menu-temas").style.display = "none";
@@ -297,13 +310,13 @@
 
         function voltarParaMenuPrincipal() {
             esconderTudo();
-            document.getElementById("menu-temas").style.display = "table";
+            document.getElementById("menu-temas").style.display = "flex";
             document.getElementById("btn-voltar-home").style.display = "inline-block";
         }
 
         function abrirSubMenuPapelaria() {
             esconderTudo();
-            document.getElementById("menu-papelaria").style.display = "table";
+            document.getElementById("menu-papelaria").style.display = "flex";
             document.getElementById("btn-voltar-temas").style.display = "inline-block";
         }
 
@@ -325,16 +338,14 @@
             listaFotosAtiva = [];
             
             imagensGerais.forEach(function(img) {
-                if (img.parentElement.style.visibility !== "hidden") {
-                    listaFotosAtiva.push(img);
-                }
+                listaFotosAtiva.push(img);
             });
         }
 
         function abrirFotoGrande(elementoImg) {
             var lightbox = document.getElementById("visualizadorLightbox");
             var imagemGrande = document.getElementById("fotoExpandida");
-            lightbox.style.display = "block";
+            lightbox.style.display = "flex";
             imagemGrande.src = elementoImg.src;
             indexFotoAtual = listaFotosAtiva.indexOf(elementoImg);
         }
@@ -354,9 +365,17 @@
             document.getElementById("fotoExpandida").src = listaFotosAtiva[indexFotoAtual].src;
         }
 
+        /* Fechar clicando no fundo escuro */
+        document.getElementById("visualizadorLightbox").addEventListener('click', function(e) {
+            if (e.target === this) {
+                fecharFotoGrande();
+            }
+        });
+
+        /* Navegação via Teclado */
         document.addEventListener('keydown', function(event) {
             var lightbox = document.getElementById("visualizadorLightbox");
-            if (lightbox && lightbox.style.display === "block") {
+            if (lightbox && lightbox.style.display === "flex") {
                 if (event.key === "ArrowRight") {
                     mudarFoto(1);
                 } else if (event.key === "ArrowLeft") {
@@ -366,6 +385,28 @@
                 }
             }
         });
+
+        /* Navegação por Gesto no Celular (Swipe) */
+        var lightboxElement = document.getElementById("visualizadorLightbox");
+        
+        lightboxElement.addEventListener('touchstart', function(e) {
+            touchStartX = e.changedTouches[0].screenX;
+        }, false);
+
+        lightboxElement.addEventListener('touchend', function(e) {
+            touchEndX = e.changedTouches[0].screenX;
+            tratarDeslize();
+        }, false);
+
+        function tratarDeslize() {
+            var limiteDistancia = 50;
+            if (touchEndX < touchStartX - limiteDistancia) {
+                mudarFoto(1);
+            }
+            if (touchEndX > touchStartX + limiteDistancia) {
+                mudarFoto(-1);
+            }
+        }
     </script>
 </body>
 </html>
