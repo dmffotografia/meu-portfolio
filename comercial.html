@@ -183,7 +183,7 @@
             color: var(--accent-blue);
         }
 
-        /* Setas Ocultas por Padrão (No PC ficam escondidas) */
+        /* Setas Ocultas no Computador */
         .lightbox-btn {
             display: none;
         }
@@ -196,15 +196,18 @@
                 padding: 15px 3%;
             }
 
-            /* 1. Blocos dos Menus/Sub-menus em 100% sem espremer */
-            .grid-menu, 
-            .menu-linha, 
-            .quadrado-tema {
-                display: block !important;
-                width: 100% !important;
+            /* Adapta o layout das tabelas nos menus para não ficarem espremidos */
+            .grid-menu {
+                display: block;
+            }
+
+            .menu-linha {
+                display: block;
             }
 
             .quadrado-tema {
+                display: block !important;
+                width: 100% !important;
                 margin-bottom: 20px;
             }
 
@@ -216,7 +219,7 @@
                 display: none !important;
             }
 
-            /* 2. Exibe as setas flutuantes APENAS no Celular */
+            /* Setas de navegação visíveis apenas no Celular */
             .lightbox-btn {
                 display: flex !important;
                 align-items: center;
@@ -278,8 +281,6 @@
          2. SUB-MENU: MODA & COMERCIAL (PROJETOS)
          ========================================================= -->
     <div class="grid-menu sub-menu" id="menu-moda">
-        <h2 style="color: var(--accent-blue); text-align: center; margin-bottom: 25px; width: 100%;"></h2>
-        
         <div class="menu-linha">
             <!-- Projeto: Rubra Fashion -->
             <div class="quadrado-tema">
@@ -297,8 +298,6 @@
          3. SUB-MENU: RUBRA FASHION (ENSAIOS)
          ========================================================= -->
     <div class="grid-menu sub-menu" id="menu-rubra">
-        <h2 style="color: var(--accent-blue); text-align: center; margin-bottom: 25px; width: 100%;"></h2>
-        
         <div class="menu-linha">
             <!-- Ensaio: Outubro -->
             <div class="quadrado-tema">
@@ -318,8 +317,6 @@
 
     <!-- GALERIA: PAPELARIA MÃOS CRIATIVAS -->
     <div class="galeria-fotos" id="galeria-maos-criativas">
-        <h2 style="color: var(--accent-blue); text-align: center; margin-bottom: 20px;"></h2>
-        
         <div class="mural-fotos">
             <div class="mural-linha">
                 <div class="mural-coluna"><img src="imagens/comercial/papelaria_maos_criativas/produto1.jpg" alt="Produto 1" onclick="abrirFotoGrande(this)"></div>
@@ -361,7 +358,6 @@
 
     <!-- GALERIA: RUBRA FASHION - ENSAIO OUTUBRO -->
     <div class="galeria-fotos" id="galeria-rubra-outubro">
-        <h2 style="color: var(--accent-blue); text-align: center; margin-bottom: 20px;"></h2>
         <div class="mural-fotos">
             <div class="mural-linha">
                 <div class="mural-coluna"><img src="imagens/comercial/moda_e_comercial/rubra_fashion/ensaio_outubro/moda1 (3).jpg" alt="Moda 3" onclick="abrirFotoGrande(this)"></div>
@@ -447,7 +443,7 @@
     </div>
 
     <!-- =========================================================
-         5. JANELA FLUTUANTE (LIGHTBOX NAVEGÁVEL NO MOBILE)
+         5. JANELA FLUTUANTE (LIGHTBOX)
          ========================================================= -->
     <div id="visualizadorLightbox" class="lightbox-modal">
         <span class="lightbox-close" onclick="fecharFotoGrande()">&times;</span>
@@ -457,7 +453,7 @@
     </div>
 
     <!-- =========================================================
-         6. LÓGICA INTERATIVA (JAVASCRIPT)
+         6. LÓGICA INTERATIVA (JAVASCRIPT CORRIGIDO)
          ========================================================= -->
     <script>
         var listaFotosAtiva = [];
@@ -491,19 +487,19 @@
 
         function voltarParaMenuPrincipal() {
             esconderTudo();
-            document.getElementById("menu-temas").style.display = window.innerWidth <= 768 ? "block" : "table";
+            document.getElementById("menu-temas").style.display = (window.innerWidth <= 768) ? "block" : "table";
             document.getElementById("btn-voltar-home").style.display = "inline-block";
         }
 
         function abrirSubMenuModa() {
             esconderTudo();
-            document.getElementById("menu-moda").style.display = window.innerWidth <= 768 ? "block" : "table";
+            document.getElementById("menu-moda").style.display = (window.innerWidth <= 768) ? "block" : "table";
             document.getElementById("btn-voltar-temas").style.display = "inline-block";
         }
 
         function abrirSubMenuRubra() {
             esconderTudo();
-            document.getElementById("menu-rubra").style.display = window.innerWidth <= 768 ? "block" : "table";
+            document.getElementById("menu-rubra").style.display = (window.innerWidth <= 768) ? "block" : "table";
             document.getElementById("btn-voltar-moda").style.display = "inline-block";
         }
 
